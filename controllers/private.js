@@ -1,14 +1,6 @@
 const Contacts = require("../models/Contacts");
 const searchLogs = require("../models/Logs");
-const pg = require('pg');
-
-const pool = new pg.Pool({
-    user: 'postgres',
-    password: '12345',
-    host: 'localhost',
-    database: 'contact',
-    post: 5432
-})
+const pool = require('../config/pg');
 
 exports.searchPostgreSQL = async (req, res) => {
     try{
