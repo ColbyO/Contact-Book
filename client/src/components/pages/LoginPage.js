@@ -70,11 +70,3 @@ function LoginPage({history}) {
 }
 
 export default LoginPage
-
-{/* <form onSubmit={loginHandler}>
-<h1>Login</h1>
-    <input placeholder="email" onChange={(e)=> setEmail(e.target.value)}/>
-    <input placeholder="password" onChange={(e)=> setPassword(e.target.value)}/>
-    <button  variant="contained" color="primary">Submit</button>
-    <span>Don't have an account? <Link to="/register">Register</Link></span>
-</form> */}

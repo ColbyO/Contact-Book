@@ -88,15 +88,3 @@ function RegisterPage({ history }) {
 }
 
 export default RegisterPage
-
-{/* <form onSubmit={registerHandler}>
-<h1>Register</h1>
-{error && <span>{error}</span>}
-    <input placeholder="username" value={username} onChange={(e)=> setUsername(e.target.value)}/>
-    <input placeholder="email" value={email} onChange={(e)=> setEmail(e.target.value)}/>
-    <input placeholder="password" value={password} onChange={(e)=> setPassword(e.target.value)}/>
-    <input placeholder="confirmPassword"  value={confirmPassword} onChange={(e)=> setConfirmPassword(e.target.value)}/>
-    <Button type="submit" >Submit</Button>
-
-    <span> Already have an account? <Link to="login">Login</Link></span>
-</form>     */}
