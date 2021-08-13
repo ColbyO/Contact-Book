@@ -7,6 +7,7 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import SearchPage from './components/pages/SearchPage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
+import History from './components/pages/History';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
     <div className="App">
       <Switch>
         <PrivateRoute exact path="/" component={SearchPage} />
+        <PrivateRoute exact path="/history" component={History} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/register" component={RegisterPage} />
       </Switch>
