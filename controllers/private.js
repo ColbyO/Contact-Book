@@ -12,21 +12,21 @@ const pool = new pg.Pool({
 
 exports.searchPostgreSQL = async (req, res) => {
     try{
-        const searchTerm = req.body.searchTerm
+        const {searchTerm, searchQuery} = req.body;
         let searchTermNew = searchTerm + '%'
-        if (req.body.searchQuery === "firstname") {
+        if (searchQuery === "firstname") {
             const contacts = await pool.query("SELECT * FROM contact_data WHERE firstname LIKE $1", [searchTermNew]);
             res.json(contacts)        
-        } if (req.body.searchQuery === "lastname") {
+        } if (searchQuery === "lastname") {
             const contacts = await pool.query("SELECT * FROM contact_data WHERE lastname LIKE $1", [searchTermNew]);
             res.json(contacts)             
-        } if (req.body.searchQuery === "email") {
+        } if (searchQuery === "email") {
             const contacts = await pool.query("SELECT * FROM contact_data WHERE email LIKE $1", [searchTermNew]);
             res.json(contacts)
-        } if (req.body.searchQuery === "phone") {
+        } if (searchQuery === "phone") {
             const contacts = await pool.query("SELECT * FROM contact_data WHERE phone LIKE $1", [searchTermNew]);
             res.json(contacts) 
-        } if (req.body.searchQuery === "streetaddress") {
+        } if (searchQuery === "streetaddress") {
             const contacts = await pool.query("SELECT * FROM contact_data WHERE streetaddress LIKE $1", [searchTermNew]);
             res.json(contacts)
         }
@@ -37,9 +37,7 @@ exports.searchPostgreSQL = async (req, res) => {
 
 exports.searchMongoDB = async (req, res) => {
     try{
-        const {searchQuery, searchTerm} = req.body;
-        const 
-        // const searchQuery = req.body.searchQuery
+        const {searchQuery, searchTerm} = req.body; 
         if (searchQuery === "firstname") {
             const contact = await Contacts.find({firstname: {$regex: searchTerm}})
             res.json(contact)          

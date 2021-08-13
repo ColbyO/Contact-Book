@@ -18,6 +18,6 @@ const server = app.listen(PORT,()=> {
 })
 
 process.on("uncaughtException", (err, promise)=> {
-    console.log(`Logged Errpr: ${err}`)
+    console.log(`Logged Error: ${err}`)
     server.close(()=> process.exit(1))
 })
