@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Container, InputGroup, Dropdown, DropdownButton, FormControl as FormControlBoot } from 'react-bootstrap'
-import {Button, IconButton} from '@material-ui/core'
+import {Button, FormGroup, IconButton, Paper, Switch} from '@material-ui/core'
 import ListSearches from '../page components/ListSearches'
 import NavBar from '../page components/NavBar'
 
@@ -124,23 +124,26 @@ function SearchPage({history}) {
             <IconButton aria-label="filter" onClick={() => filterOpenFunc()}>
                 <MoreVertIcon />
             </IconButton>
+            </InputGroup>
             {
                 filterOpen ? 
-                <FormControl component="fieldset" style={{width:"350px", height:"50px", marginLeft: "15px", marginRight: "15px", marginTop: "-30px"}}>
-                <FormLabel component="legend">Filter By:</FormLabel>
-                <RadioGroup aria-label="filter" name="filterby" value={radio} onChange={handleChange}>
-                  <FormControlLabel value="firstname" control={<Radio />} label="First Name" />
-                  <FormControlLabel value="lastname" control={<Radio />} label="Last Name" />
-                  <FormControlLabel value="email" control={<Radio />} label="Email" />
-                  <FormControlLabel value="company" control={<Radio />} label="Company"  style={{marginLeft: "150px", marginTop: "-127px"}} />
-                  <FormControlLabel value="department" control={<Radio />} label="Department" style={{marginLeft: "150px"}} />
-                  <FormControlLabel value="jobtitle" control={<Radio />} label="Job Title" style={{marginLeft: "150px"}} />
-                  <FormControlLabel value="phone" control={<Radio />} label="Phone" style={{marginLeft: "150px"}} />
-                </RadioGroup>
-              </FormControl>
+                <Paper style={{position: "relative", width:"320px", height:"200px", marginLeft: "37%"}}>
+                    <FormControl component="fieldset" style={{marginTop: "15px", marginLeft: "15px"}} >
+                    <FormLabel component="legend">Filter By:</FormLabel>
+                    <RadioGroup  aria-label="filter" name="filterby" value={radio} onChange={handleChange} style={{height: "250px", marginTop: "-10px"}}>
+                        <FormControlLabel  value="firstname" control={<Radio />} label="First Name" />
+                        <FormControlLabel value="lastname" control={<Radio  />} label="Last Name" />
+                        <FormControlLabel value="email" control={<Radio  />} label="Email" />
+                        <FormControlLabel value="company" control={<Radio  />} label="Company"  style={{marginLeft: "150px", marginTop: "-128px"}} />
+                        <FormControlLabel value="department" control={<Radio  />} label="Department" style={{marginLeft: "150px"}} />
+                        <FormControlLabel value="jobtitle" control={<Radio  />} label="Job Title" style={{marginLeft: "150px"}} />
+                        <FormControlLabel value="phone" control={<Radio  />} label="Phone" style={{marginTop: "3px"}} />
+                    </RadioGroup>
+                </FormControl>
+              </Paper>
                 : <p></p>
             }
-        </InputGroup>
+
         </Container>
         <Container>
             {
