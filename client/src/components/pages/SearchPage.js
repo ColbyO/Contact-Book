@@ -132,8 +132,10 @@ function SearchPage({history}) {
                   <FormControlLabel value="firstname" control={<Radio />} label="First Name" />
                   <FormControlLabel value="lastname" control={<Radio />} label="Last Name" />
                   <FormControlLabel value="email" control={<Radio />} label="Email" />
-                  <FormControlLabel value="phone" control={<Radio />} label="Phone"  style={{marginLeft: "150px", marginTop: "-127px"}} />
-                  <FormControlLabel value="streetaddress" control={<Radio />} label="Street Address" style={{marginLeft: "150px"}} />
+                  <FormControlLabel value="company" control={<Radio />} label="Company"  style={{marginLeft: "150px", marginTop: "-127px"}} />
+                  <FormControlLabel value="department" control={<Radio />} label="Department" style={{marginLeft: "150px"}} />
+                  <FormControlLabel value="jobtitle" control={<Radio />} label="Job Title" style={{marginLeft: "150px"}} />
+                  <FormControlLabel value="phone" control={<Radio />} label="Phone" style={{marginLeft: "150px"}} />
                 </RadioGroup>
               </FormControl>
                 : <p></p>
