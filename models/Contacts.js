@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const contactsTemplate = new mongoose.Schema({
+    id: {
+        type: Number,
+        required: true
+    },
     firstname: {
         type: String,
         required: true
