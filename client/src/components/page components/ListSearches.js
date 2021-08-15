@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import {IconButton} from '@material-ui/core'
-import {DataGrid} from '@material-ui/data-grid'
+import axios from 'axios';
+import {IconButton} from '@material-ui/core';
+import {DataGrid} from '@material-ui/data-grid';
 import {Container} from 'react-bootstrap';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -11,25 +12,69 @@ import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import EditModal from './EditModal'
+import SearchCards from './SearchCards';
 
 
 function ListSearches({searchTerm}) {
     const [tableData, setTableData] = useState([])
     const [selectionModel, setSelectionModel] = useState([])
+    const [editInfo, setEditInfo] = useState([])
     const [view, setView] = useState('list');
     const [edit, setEdit] = useState(false);
 
-    const handleChange = (event, nextView) => {
-      setView(nextView);
-    };
-    const editBtn = () => {
-        if(edit === true){
-            setEdit(false)
+    const getContactInfo = async () => {
+        let id = selectionModel[0]
+        let currentContact = await axios({
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`
+            },
+            url: "http://localhost:5000/api/private/get/contact",
+            data: {
+                id: id
+            }
+        })
+        console.log(currentContact.data[0])
+        if (currentContact.data._id) {
+            setEditInfo(currentContact.data)
         } else {
-            setEdit(true)
+            setEditInfo(currentContact.data[0])
         }
-        console.log(selectionModel)
+
     }
+
+    const handleViewChange = (event, nextView) => {
+        if(view === "module"){
+            setView("list")
+        } else {
+            setView("module")
+        }
+    };
+
+    const closeModalHandler = () => {
+        setEdit(false)
+    };
+
+    const deleteOneContact = async () => {
+        if (window.confirm("Are you sure you want to delete this contact?")) {
+            let deleteContact = await axios({
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`
+                },
+                url: "http://localhost:5000/api/private/delete/contact",
+                data: {
+                    id: selectionModel[0]
+                }
+            })
+            console.log(deleteContact)
+        } else {
+            console.log("DIDNT DELETE")
+        }
+    } 
+
     const columns = [
         {field: 'firstname', headerName: "First Name", width: 150},
         {field: 'lastname', headerName: "Last Name", width: 150},
@@ -51,7 +96,7 @@ function ListSearches({searchTerm}) {
             {searchTerm ? 
             <div>
                 <div style={{display: "flex"}}>
-                    <ToggleButtonGroup orientation="horizontal" value={view} exclusive onChange={handleChange}>
+                    <ToggleButtonGroup orientation="horizontal" value={view} exclusive onChange={handleViewChange}>
                         <ToggleButton value="list" aria-label="list">
                             <ViewListIcon />
                         </ToggleButton>
@@ -61,7 +106,7 @@ function ListSearches({searchTerm}) {
                     </ToggleButtonGroup>
                     {
                         selectionModel.length < 1 ?
-                        <ButtonGroup style={{alignItems: "flex-end"}}>
+                        <ButtonGroup style={{marginLeft: "89.8%"}}>
                         <IconButton aria-label="Add">
                             <AddIcon />
                         </IconButton>
@@ -69,11 +114,16 @@ function ListSearches({searchTerm}) {
                     }
                     {
                         selectionModel.length === 1 ? 
-                        <ButtonGroup>
-                            <IconButton aria-label="Edit">
-                                <EditIcon onClick={editBtn} />
+                        <ButtonGroup style={{marginLeft: "86%"}}>
+                            <IconButton aria-label="Edit" onClick={()=>{
+                                     setEdit(!edit)
+                                     getContactInfo()
+                                    }}>
+                                <EditIcon />
                             </IconButton>
-                            <IconButton aria-label="Delete">
+                            <IconButton aria-label="Delete" onClick={()=>{
+                                deleteOneContact()
+                            }}>
                                 <DeleteIcon />
                             </IconButton>
                         </ButtonGroup>   
@@ -82,7 +132,7 @@ function ListSearches({searchTerm}) {
                     }
                     {
                         selectionModel.length > 1 ? 
-                        <ButtonGroup>
+                        <ButtonGroup style={{marginLeft: "89.8%"}}>
                             <IconButton aria-label="Delete">
                                 <DeleteIcon />
                             </IconButton>
@@ -90,10 +140,12 @@ function ListSearches({searchTerm}) {
                         : <></>
                     }
                     {
-                        edit ? <EditModal view={edit} profile={selectionModel} /> : <></>
+                        edit ? <EditModal view={edit} profile={editInfo} close={closeModalHandler} /> : <></>
                     }
                 </div>
-                <div style={{height: 650, width: '100%', marginTop: "15px"}}>
+                {
+                    view === "list" ? 
+                    <div style={{height: 650, width: '100%', marginTop: "15px"}}>
                     <DataGrid
                     rows={tableData}
                     columns={columns}
@@ -102,10 +154,18 @@ function ListSearches({searchTerm}) {
                     onRowClick={(e)=> console.log(e.row)}
                     onSelectionModelChange={(newSelectionModel)=> {
                         setSelectionModel(newSelectionModel)
+                        console.log(newSelectionModel)
                     }}
                     selectionModel={selectionModel}
-                    /> </div> </div> : <p></p>    
+                    /> </div>
+                    : <p></p>
+                }
+                {
+                    view === "module" ? <SearchCards searchTerm={searchTerm} /> : <p></p>
+                }
+             </div> : <p></p>    
             }
+
         
             </Container>
     )
