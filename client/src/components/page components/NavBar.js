@@ -1,15 +1,33 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Navbar, Container, NavDropdown, Nav } from 'react-bootstrap'
-// import axios from 'axios'
+import axios from 'axios'
 
-function NavBar({history}) {
+function NavBar() {
+    const [username, setUsername] = useState("")
 
     const logoutHandler = () => {
         localStorage.removeItem("authToken")
         window.location = "/login"
     }
 
+    const getCurrentUser = async () => {
+        let currentUser = await axios({
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`
+            },
+            url: "http://localhost:5000/api/private/get/currentuser",
+            data: {
+                id: "1001"
+            }
+        })
+        setUsername(currentUser.data.username)
+    }
 
+    useEffect(() => {
+        getCurrentUser()
+    }, [])
 
     return (
         <Navbar bg="light" variant="light">
@@ -23,7 +41,7 @@ function NavBar({history}) {
                 <Nav>
                     <NavDropdown
                     id="nav-dropdown"
-                    title="REDO_USER"
+                    title={username}
                     menuVariant="light"
                     >
                     <NavDropdown.Item href="">Bookmarks</NavDropdown.Item>

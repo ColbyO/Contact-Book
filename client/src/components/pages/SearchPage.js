@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Container, InputGroup, Dropdown, DropdownButton, FormControl as FormControlBoot } from 'react-bootstrap'
-import {Button, FormGroup, IconButton, Paper, Switch} from '@material-ui/core'
+import {Button, IconButton, Paper} from '@material-ui/core'
 import ListSearches from '../page components/ListSearches'
 import NavBar from '../page components/NavBar'
 
@@ -10,18 +10,37 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { FormControl, Radio, RadioGroup, FormControlLabel, FormLabel } from '@material-ui/core';
 
 function SearchPage({history}) {
-    // const [user, setUser] = useState("")
+
+    const [username, setUsername] = useState("")
     const [search, setSearch] = useState("")
     const [searchTerm, setSearchTerm] = useState()
     const [database, setDatabase] = useState("Database")
     const [filterOpen, setFilterOpen] = useState(false)
     const [radio, setRadio] = useState('firstname');
 
+    const getCurrentUser = async () => {
+        let currentUser = await axios({
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`
+            },
+            url: "http://localhost:5000/api/private/get/currentuser",
+            data: {
+                id: "1001"
+            }
+        })
+        setUsername(currentUser.data.username)
+    }
+
+    useEffect(() => {
+        getCurrentUser()
+    }, [])
+
     useEffect(()=> {
         if(!localStorage.getItem("authToken")) {
             history.push("/login")
         }
-
     }, [history])
 
     const getAllContacts = async () => {
@@ -38,7 +57,7 @@ function SearchPage({history}) {
                 searchQuery: radio
                 }, config),
                 axios.post("/api/private/log/search",{
-                    user: "TEST USER",
+                    user: username,
                     searchTerm: search,
                     searchQuery: radio,
                     database: database
@@ -54,7 +73,7 @@ function SearchPage({history}) {
                 searchQuery: radio
                 }, config),
                 axios.post("/api/private/log/search",{
-                    user: "TEST USER",
+                    user: username,
                     searchTerm: search,
                     searchQuery: radio,
                     database: database
@@ -74,7 +93,7 @@ function SearchPage({history}) {
                         searchQuery: radio
                     }, config),
                 axios.post("/api/private/log/search", {
-                    user: "TEST USER",
+                    user: username,
                     searchTerm: search,
                     searchQuery: radio,
                     database: database                    
