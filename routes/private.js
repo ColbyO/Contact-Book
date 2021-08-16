@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {searchPostgreSQL, searchMongoDB, logSearches, getAllLogs, getContactInfo, getCurrentUser, updateContactInfo, deleteOneContact} = require("../controllers/private")
+const {searchPostgreSQL, searchMongoDB, logSearches, getAllLogs, getContactInfo, getCurrentUser, updateContactInfo, deleteOneContact, deleteManyContacts, addContact} = require("../controllers/private")
 const { protect } = require('../middleware/auth')
 
 router.route("/search/postgresql").post(protect, searchPostgreSQL)
@@ -18,5 +18,9 @@ router.route("/get/currentuser").get(protect, getCurrentUser)
 router.route("/update/contactinfo").put(protect, updateContactInfo)
 
 router.route("/delete/contact").delete(protect, deleteOneContact)
+
+router.route("/delete/contacts").delete(protect, deleteManyContacts)
+
+router.route("/add/contact").post(protect, addContact)
 
 module.exports = router;

@@ -78,7 +78,7 @@ function SearchCards({searchTerm}) {
         {
             currentPosts.map(keyWord => 
                 <div style={{height: "250px"}}>
-                <Paper style={{width: "300px", height: "200px"}} >
+                <Paper style={{width: "300px", height: "200px"}} key={keyWord.id} >
                 <div style={{marginLeft: "68%", marginTop: "2%"}}>
                             <ButtonGroup>
                                 <IconButton aria-label="Edit" onClick={()=> {
@@ -88,11 +88,11 @@ function SearchCards({searchTerm}) {
                                     }}  >
                                     <EditIcon/>
                                 </IconButton>
-                                <IconButton aria-label="Delete">
-                                    <DeleteIcon onClick={async ()=> {
+                                <IconButton aria-label="Delete" onClick={async ()=> {
                                         await getContactInfo()
                                         deleteOneContact()
-                                    }} />
+                                    }} >
+                                    <DeleteIcon />
                                 </IconButton>
                             </ButtonGroup> 
                             </div>
@@ -111,7 +111,7 @@ function SearchCards({searchTerm}) {
             </div>
                 )
         }
-        <div style={{}}>
+        <div>
         <Pagination 
         postsPerPage={postsPerPage}
         totalPosts={tableData.length}

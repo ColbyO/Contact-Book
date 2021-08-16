@@ -19,18 +19,23 @@ function SearchPage({history}) {
     const [radio, setRadio] = useState('firstname');
 
     const getCurrentUser = async () => {
-        let currentUser = await axios({
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`
-            },
-            url: "http://localhost:5000/api/private/get/currentuser",
-            data: {
-                id: "1001"
-            }
-        })
-        setUsername(currentUser.data.username)
+        try {
+            let currentUser = await axios({
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`
+                },
+                url: "http://localhost:5000/api/private/get/currentuser",
+            })
+            
+            setUsername(currentUser.data.username)             
+        } catch (err) {
+            localStorage.removeItem("authToken")
+            window.location = "/"
+            console.log(err)
+        }
+
     }
 
     useEffect(() => {
@@ -44,70 +49,74 @@ function SearchPage({history}) {
     }, [history])
 
     const getAllContacts = async () => {
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`
+        if (search === "") {
+            alert("Not searching anything!")
+        } else {
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`
+                }
             }
-        }
-        if (database === "PostgreSQL") {
-            await axios.all([
-                axios.post("/api/private/search/postgresql", {
-                searchTerm: search,
-                searchQuery: radio
-                }, config),
-                axios.post("/api/private/log/search",{
-                    user: username,
+            if (database === "PostgreSQL") {
+                await axios.all([
+                    axios.post("/api/private/search/postgresql", {
                     searchTerm: search,
-                    searchQuery: radio,
-                    database: database
-                }, config)
-        ]).then(axios.spread((data1, data2) => {
-            setSearchTerm(data1.data.rows)
-            throw data2
-        }))} 
-         if (database === "MongoDB") {
-            await axios.all([
-                axios.post("/api/private/search/mongodb", {
-                searchTerm: search,
-                searchQuery: radio
-                }, config),
-                axios.post("/api/private/log/search",{
-                    user: username,
-                    searchTerm: search,
-                    searchQuery: radio,
-                    database: database
-                }, config)
-        ]).then(axios.spread((data1, data2) => {
-            setSearchTerm(data1.data)
-            throw data2
-        }))} 
-        if (database === "Both") {
-            await axios.all([
-                axios.post("/api/private/search/postgresql", {
-                        searchTerm: search,
-                        searchQuery: radio
+                    searchQuery: radio
                     }, config),
-                axios.post("/api/private/search/mongodb", {
+                    axios.post("/api/private/log/search",{
+                        user: username,
                         searchTerm: search,
-                        searchQuery: radio
-                    }, config),
-                axios.post("/api/private/log/search", {
-                    user: username,
-                    searchTerm: search,
-                    searchQuery: radio,
-                    database: database                    
-                }, config)
-            ]).then(axios.spread((data1, data2, data3)=> {
-                // combines both array's
-                Array.prototype.push.apply(data1.data.rows, data2.data);
+                        searchQuery: radio,
+                        database: database
+                    }, config)
+            ]).then(axios.spread((data1, data2) => {
                 setSearchTerm(data1.data.rows)
-                throw data3
-            }))
-        } if (database === "Database") {
-            return (
-                alert("No Database Selected!")
-            )
+                throw data2
+            }))} 
+             if (database === "MongoDB") {
+                await axios.all([
+                    axios.post("/api/private/search/mongodb", {
+                    searchTerm: search,
+                    searchQuery: radio
+                    }, config),
+                    axios.post("/api/private/log/search",{
+                        user: username,
+                        searchTerm: search,
+                        searchQuery: radio,
+                        database: database
+                    }, config)
+            ]).then(axios.spread((data1, data2) => {
+                setSearchTerm(data1.data)
+                throw data2
+            }))} 
+            if (database === "Both") {
+                await axios.all([
+                    axios.post("/api/private/search/postgresql", {
+                            searchTerm: search,
+                            searchQuery: radio
+                        }, config),
+                    axios.post("/api/private/search/mongodb", {
+                            searchTerm: search,
+                            searchQuery: radio
+                        }, config),
+                    axios.post("/api/private/log/search", {
+                        user: username,
+                        searchTerm: search,
+                        searchQuery: radio,
+                        database: database                    
+                    }, config)
+                ]).then(axios.spread((data1, data2, data3)=> {
+                    // combines both array's
+                    Array.prototype.push.apply(data1.data.rows, data2.data);
+                    setSearchTerm(data1.data.rows)
+                    throw data3
+                }))
+            } if (database === "Database") {
+                return (
+                    alert("No Database Selected!")
+                )
+            }
         }
 
     }
@@ -139,7 +148,7 @@ function SearchPage({history}) {
             <Dropdown.Item href="#" onClick={() => setDatabase("Both")}>Both</Dropdown.Item>
             </DropdownButton>
             <FormControlBoot aria-label="Text input with dropdown button" placeholder="Search..." onChange={(e)=> setSearch(e.target.value)}/> 
-            <Button onClick={getAllContacts} variant="contained" color="primary">Search</Button>
+            <Button onClick={getAllContacts} variant="contained" color="primary" disableElevation>Search</Button>
             <IconButton aria-label="filter" onClick={() => filterOpenFunc()}>
                 <MoreVertIcon />
             </IconButton>

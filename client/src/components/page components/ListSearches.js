@@ -13,12 +13,14 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import EditModal from './EditModal'
 import SearchCards from './SearchCards';
+import AddContact from './AddContact';
 
 
 function ListSearches({searchTerm}) {
     const [tableData, setTableData] = useState([])
     const [selectionModel, setSelectionModel] = useState([])
     const [editInfo, setEditInfo] = useState([])
+    const [viewAddModal, setViewAddModal] = useState(false)
     const [view, setView] = useState('list');
     const [edit, setEdit] = useState(false);
 
@@ -54,6 +56,7 @@ function ListSearches({searchTerm}) {
 
     const closeModalHandler = () => {
         setEdit(false)
+        setViewAddModal(false)
     };
 
     const deleteOneContact = async () => {
@@ -69,11 +72,40 @@ function ListSearches({searchTerm}) {
                     id: selectionModel[0]
                 }
             })
-            console.log(deleteContact)
+            console.log(deleteContact.status)
+            if (deleteContact.status === 200) {
+                window.location = "/"
+            } else {
+                alert("DIDNT DELETE")
+            }
         } else {
             console.log("DIDNT DELETE")
         }
     } 
+
+    const deleteManyContacts = async () => {
+        if (window.confirm("Are you sure you want to delete this contact?")) {
+            let deleteContact = await axios({
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`
+                },
+                url: "http://localhost:5000/api/private/delete/contacts",
+                data: {
+                    id: selectionModel
+                }
+            })
+            console.log(deleteContact)
+            if (deleteContact.status === 200) {
+                window.location = "/"
+            } else {
+                alert("DIDNT DELETE")
+            }
+        } else {
+            console.log("DIDNT DELETE")
+        }        
+    }
 
     const columns = [
         {field: 'firstname', headerName: "First Name", width: 150},
@@ -107,7 +139,9 @@ function ListSearches({searchTerm}) {
                     {
                         selectionModel.length < 1 ?
                         <ButtonGroup style={{marginLeft: "89.8%"}}>
-                        <IconButton aria-label="Add">
+                        <IconButton aria-label="Add" onClick={()=> {
+                            setViewAddModal(!viewAddModal)
+                        }}>
                             <AddIcon />
                         </IconButton>
                         </ButtonGroup> : <></>
@@ -132,8 +166,10 @@ function ListSearches({searchTerm}) {
                     }
                     {
                         selectionModel.length > 1 ? 
-                        <ButtonGroup style={{marginLeft: "89.8%"}}>
-                            <IconButton aria-label="Delete">
+                        <ButtonGroup style={{marginLeft: "89.7%"}}>
+                            <IconButton aria-label="Delete" onClick={()=> {
+                                deleteManyContacts()
+                            }}>
                                 <DeleteIcon />
                             </IconButton>
                         </ButtonGroup>                           
@@ -141,6 +177,9 @@ function ListSearches({searchTerm}) {
                     }
                     {
                         edit ? <EditModal view={edit} profile={editInfo} close={closeModalHandler} /> : <></>
+                    }
+                    {
+                        viewAddModal ? <AddContact open={viewAddModal} close={closeModalHandler} /> : <p></p>
                     }
                 </div>
                 {
@@ -151,7 +190,7 @@ function ListSearches({searchTerm}) {
                     columns={columns}
                     pageSize={10}
                     checkboxSelection
-                    onRowClick={(e)=> console.log(e.row)}
+                    // onRowClick={(e)=> console.log(e.row)}
                     onSelectionModelChange={(newSelectionModel)=> {
                         setSelectionModel(newSelectionModel)
                         console.log(newSelectionModel)

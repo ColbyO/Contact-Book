@@ -130,6 +130,63 @@ exports.deleteOneContact = async (req, res) => {
     } 
 }
 
+exports.deleteManyContacts = async (req, res) => {
+    const inputId = req.body.id;
+        try{
+            for (i = 0 ; i < inputId.length; i++) {
+                console.log(inputId[i])
+                const contact = await pool.query("SELECT * FROM contact_data WHERE id = $1", [inputId[i]])
+                if (contact.rows.length >= 1) {
+                    const contacts = await pool.query("DELETE FROM contact_data WHERE id = $1", [inputId[i]]);
+                    res.json(contacts.rows)
+                } else {
+                    const contact = await Contacts.deleteOne({id: inputId[i]})
+                    res.json(contact)
+                }
+            }
+        
+            // if (contact === null) {
+            //     const contacts = await pool.query("DELETE FROM contact_data WHERE (id)) IN ($1)", [inputId]);
+            //     res.json(contacts.rows)
+            //     console.log(contacts)
+            // }
+            // if (contact !== null) {
+            //     const contact = await Contacts.deleteMany({id: { $in: inputId}})
+            //     res.json(contact)
+            //     console.log(contact)
+            // }
+        } catch (err) {
+            console.error(err)
+        }         
+      
+}
+
+exports.addContact = async (req, res) => {
+    const database = req.body.database
+    const contactID = req.body.id;
+    const setFirstname = req.body.firstname;
+    const setLastname = req.body.lastname;
+    const setEmail = req.body.email;
+    const setPhone = req.body.phone;
+    const setCompany = req.body.company;
+    const setDepartment = req.body.department;
+    const setJobTitle = req.body.jobtitle;
+    try{
+        console.log("Test")
+        if(database === "MongoDB") {
+            const newContact = new Contacts({id: contactID, firstname: setFirstname, lastname: setLastname, email: setEmail, phone: setPhone, company: setCompany, department: setDepartment, jobtitle: setJobTitle})
+            console.log(newContact)
+            await newContact.save()
+        }
+        if (database === "PostgreSQL") {
+            const newContact = await pool.query("INSERT INTO contact_data (id, firstname, lastname, email, phone, company, department, jobtitle) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [contactID ,setFirstname, setLastname, setEmail, setPhone, setCompany, setDepartment, setJobTitle])
+            console.log(newContact)
+        }
+    } catch (err) {
+        console.error(err)
+    }
+}
+
 exports.getCurrentUser = async (req, res) => {
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
