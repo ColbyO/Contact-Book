@@ -116,31 +116,31 @@ function AddContact({open, close}) {
           <Form >
             <Form.Group id="firstname">
               <Form.Label>First Name</Form.Label>
-              <Form.Control onChange={(e)=> setFirstname(e.target.value)}/>
+              <Form.Control onChange={(e)=> setFirstname(e.target.value)} required/>
             </Form.Group>              
             <Form.Group id="lastname">
               <Form.Label>Last Name</Form.Label>
-              <Form.Control onChange={(e)=> setLastname(e.target.value)}/>
+              <Form.Control onChange={(e)=> setLastname(e.target.value)} required/>
             </Form.Group>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
-              <Form.Control onChange={(e)=> setEmail(e.target.value)}/>
+              <Form.Control onChange={(e)=> setEmail(e.target.value)} required/>
             </Form.Group>
             <Form.Group id="phone">
               <Form.Label>Phone</Form.Label><br></br>
-              <Form.Control onChange={(e)=> setPhone(e.target.value)}/>
+              <Form.Control onChange={(e)=> setPhone(e.target.value)} required/>
             </Form.Group>
             <Form.Group id="company">
               <Form.Label>Employer</Form.Label>
-              <Form.Control onChange={(e)=> setCompany(e.target.value)}/>
+              <Form.Control onChange={(e)=> setCompany(e.target.value)} required/>
             </Form.Group>
             <Form.Group id="department">
               <Form.Label>Department</Form.Label>
-              <Form.Control onChange={(e)=> setDepartment(e.target.value)}/>
+              <Form.Control onChange={(e)=> setDepartment(e.target.value)} required/>
             </Form.Group>
             <Form.Group id="jobtitle">
               <Form.Label>Job Title</Form.Label>
-              <Form.Control onChange={(e)=> setJobTitle(e.target.value)}/>
+              <Form.Control onChange={(e)=> setJobTitle(e.target.value)} required/>
             </Form.Group>
             <DropdownButton
             variant="outline-secondary"
