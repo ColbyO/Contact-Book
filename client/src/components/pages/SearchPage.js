@@ -17,6 +17,7 @@ function SearchPage({history}) {
     const [database, setDatabase] = useState("Database")
     const [filterOpen, setFilterOpen] = useState(false)
     const [radio, setRadio] = useState('firstname');
+    const [databaseColor, setDatabaseColor] = useState("outline-secondary")
 
     const getCurrentUser = async () => {
         try {
@@ -131,6 +132,7 @@ function SearchPage({history}) {
 
     const handleChange = (event) => {
         setRadio(event.target.value);
+        console.log(radio)
       };
 
     return (
@@ -139,33 +141,42 @@ function SearchPage({history}) {
         <Container className="mt-5">
         <InputGroup className="mb-3">
             <DropdownButton
-            variant="outline-secondary"
+            variant={databaseColor}
             title={database}
             id="input-group-dropdown-1"
             >
-            <Dropdown.Item href="#" onClick={() => setDatabase("PostgreSQL")}>PostgreSQL</Dropdown.Item>
-            <Dropdown.Item href="#" onClick={() => setDatabase("MongoDB")}>MongoDB</Dropdown.Item>
-            <Dropdown.Item href="#" onClick={() => setDatabase("Both")}>Both</Dropdown.Item>
+            <Dropdown.Item href="#" onClick={() => {
+                setDatabase("PostgreSQL")
+                setDatabaseColor("outline-primary")
+                }}>PostgreSQL</Dropdown.Item>
+            <Dropdown.Item href="#" onClick={() => {
+                setDatabase("MongoDB")
+                setDatabaseColor("outline-success") 
+                }}>MongoDB</Dropdown.Item>
+            <Dropdown.Item href="#" onClick={() => {
+                setDatabase("Both")
+                setDatabaseColor("outline-warning")
+            }}>Both</Dropdown.Item>
             </DropdownButton>
             <FormControlBoot aria-label="Text input with dropdown button" placeholder="Search..." onChange={(e)=> setSearch(e.target.value)}/> 
             <Button onClick={getAllContacts} variant="contained" color="primary" disableElevation>Search</Button>
             <IconButton aria-label="filter" onClick={() => filterOpenFunc()}>
-                <MoreVertIcon />
+                <MoreVertIcon color="primary"/>
             </IconButton>
             </InputGroup>
             {
                 filterOpen ? 
-                <Paper style={{position: "relative", width:"320px", height:"200px", marginLeft: "37%"}}>
+                <Paper style={{position: "relative", width:"450px", height:"100px", marginLeft: "30%"}}>
                     <FormControl component="fieldset" style={{marginTop: "15px", marginLeft: "15px"}} >
                     <FormLabel component="legend">Filter By:</FormLabel>
                     <RadioGroup  aria-label="filter" name="filterby" value={radio} onChange={handleChange} style={{height: "250px", marginTop: "-10px"}}>
                         <FormControlLabel  value="firstname" control={<Radio />} label="First Name" />
-                        <FormControlLabel value="lastname" control={<Radio  />} label="Last Name" />
-                        <FormControlLabel value="email" control={<Radio  />} label="Email" />
-                        <FormControlLabel value="company" control={<Radio  />} label="Company"  style={{marginLeft: "150px", marginTop: "-128px"}} />
-                        <FormControlLabel value="department" control={<Radio  />} label="Department" style={{marginLeft: "150px"}} />
-                        <FormControlLabel value="jobtitle" control={<Radio  />} label="Job Title" style={{marginLeft: "150px"}} />
-                        <FormControlLabel value="phone" control={<Radio  />} label="Phone" style={{marginTop: "3px"}} />
+                        <FormControlLabel value="lastname" control={<Radio  />} label="Last Name" style={{marginTop: "-15px"}} />
+                        <FormControlLabel value="email" control={<Radio  />} label="Email" style={{marginLeft: "150px" , marginTop: "-73px"}}  />
+                        <FormControlLabel value="phone" control={<Radio  />} label="Phone" style={{marginTop: "-15px", marginLeft: "150px"}} />
+                        <FormControlLabel value="company" control={<Radio  />} label="Company"  style={{marginLeft: "300px", marginTop: "-60px"}} />
+                        <FormControlLabel value="department" control={<Radio  />} label="Department" style={{marginLeft: "300px", marginTop: "-14px"}} />
+                        <FormControlLabel value="jobtitle" control={<Radio  />} label="Job Title" style={{marginLeft: "300px", marginTop: "-96px"}} />
                     </RadioGroup>
                 </FormControl>
               </Paper>
