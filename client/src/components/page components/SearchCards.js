@@ -74,6 +74,7 @@ function SearchCards({searchTerm}) {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
+        <div>
         <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "10px"}}>
         {
             currentPosts.map(keyWord => 
@@ -112,19 +113,24 @@ function SearchCards({searchTerm}) {
                 )
         }
         <div>
-        <Pagination 
-        postsPerPage={postsPerPage}
-        totalPosts={tableData.length}
-        paginate={paginate}
-        
-      />
+
       </div>
+
       {
           openModal ? <div > <CardModal view={openModal} info={modalInfo} close={closeModalHandler} /> </div> : <p></p>
       }
       {
           edit ? <div ><EditModal view={edit} close={closeModalHandler} profile={modalInfo} /></div>  : <p></p>
       }
+      </div>
+      <div style={{marginLeft: "35%"}}>
+      <Pagination 
+        postsPerPage={postsPerPage}
+        totalPosts={tableData.length}
+        paginate={paginate}
+
+      />
+      </div>
         </div>
     )
 }

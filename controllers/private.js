@@ -2,6 +2,7 @@ const User = require("../models/User");
 const Contacts = require("../models/Contacts");
 const searchLogs = require("../models/Logs");
 const pool = require('../config/pg');
+const sanitize = require('mongo-sanitize');
 const jwt = require('jsonwebtoken');
 
 exports.searchPostgreSQL = async (req, res) => {
@@ -20,8 +21,14 @@ exports.searchPostgreSQL = async (req, res) => {
         } if (searchQuery === "phone") {
             const contacts = await pool.query("SELECT * FROM contact_data WHERE phone LIKE $1", [searchTermNew]);
             res.json(contacts) 
-        } if (searchQuery === "streetaddress") {
-            const contacts = await pool.query("SELECT * FROM contact_data WHERE streetaddress LIKE $1", [searchTermNew]);
+        } if (searchQuery === "jobtitle") {
+            const contacts = await pool.query("SELECT * FROM contact_data WHERE jobtitle LIKE $1", [searchTermNew]);
+            res.json(contacts)
+        } if (searchQuery === "department") {
+            const contacts = await pool.query("SELECT * FROM contact_data WHERE department LIKE $1", [searchTermNew]);
+            res.json(contacts)
+        } if (searchQuery === "company") {
+            const contacts = await pool.query("SELECT * FROM contact_data WHERE company LIKE $1", [searchTermNew]);
             res.json(contacts)
         }
     }catch(err){
@@ -31,7 +38,7 @@ exports.searchPostgreSQL = async (req, res) => {
 
 exports.searchMongoDB = async (req, res) => {
     try{
-        const {searchQuery, searchTerm} = req.body; 
+        const {searchQuery, searchTerm} = sanitize(req.body); 
         if (searchQuery === "firstname") {
             const contact = await Contacts.find({firstname: {$regex: searchTerm}})
             res.json(contact)          
@@ -44,8 +51,14 @@ exports.searchMongoDB = async (req, res) => {
         } if (searchQuery === "phone") {
             const contact = await Contacts.find({email: {$regex: searchTerm}})
             res.json(contact)  
-        } if (searchQuery === "streetaddress") {
-            const contact = await Contacts.find({streetaddress: {$regex: searchTerm}})
+        } if (searchQuery === "jobtitle") {
+            const contact = await Contacts.find({jobtitle: {$regex: searchTerm}})
+            res.json(contact)
+        } if (searchQuery === "department") {
+            const contact = await Contacts.find({department: {$regex: searchTerm}})
+            res.json(contact)
+        } if (searchQuery === "company") {
+            const contact = await Contacts.find({company: {$regex: searchTerm}})
             res.json(contact)
         }
      } catch (err) {
@@ -55,7 +68,7 @@ exports.searchMongoDB = async (req, res) => {
 
 exports.logSearches = async (req, res)=> {
     try {
-        const logSearch = new searchLogs({username: req.body.user, searchTerm: req.body.searchTerm, database: req.body.database, searchQuery: req.body.searchQuery})
+        const logSearch = new searchLogs({username: sanitize(req.body.user), searchTerm: sanitize(req.body.searchTerm), database: sanitize(req.body.database), searchQuery: sanitize(req.body.searchQuery)})
         res.json(logSearch)
         await logSearch.save()
     } catch (err) {
@@ -73,7 +86,7 @@ exports.getAllLogs = async (req, res)=> {
 }
 
 exports.getContactInfo = async (req, res) => {
-    const contactID = req.body.id;
+    const contactID = sanitize(req.body.id);
     try{
         const contact = await Contacts.findOne({id: contactID})
         if (contact === null) {
@@ -89,14 +102,14 @@ exports.getContactInfo = async (req, res) => {
 }
 
 exports.updateContactInfo = async (req, res) => {
-    const contactID = req.body.id;
-    const setFirstname = req.body.firstname;
-    const setLastname = req.body.lastname;
-    const setEmail = req.body.email;
-    const setPhone = req.body.phone;
-    const setCompany = req.body.company;
-    const setDepartment = req.body.department;
-    const setJobTitle = req.body.jobtitle;
+    const contactID = sanitize(req.body.id);
+    const setFirstname = sanitize(req.body.firstname);
+    const setLastname = sanitize(req.body.lastname);
+    const setEmail = sanitize(req.body.email);
+    const setPhone = sanitize(req.body.phone);
+    const setCompany = sanitize(req.body.company);
+    const setDepartment = sanitize(req.body.department);
+    const setJobTitle = sanitize(req.body.jobtitle);
     try{
         const contact = await Contacts.findOne({id: contactID})
         if (contact === null) {
@@ -114,7 +127,7 @@ exports.updateContactInfo = async (req, res) => {
 }
 
 exports.deleteOneContact = async (req, res) => {
-    const contactID = req.body.id;
+    const contactID = sanitize(req.body.id);
     try{
         const contact = await Contacts.findOne({id: contactID})
         if (contact === null) {
@@ -131,7 +144,7 @@ exports.deleteOneContact = async (req, res) => {
 }
 
 exports.deleteManyContacts = async (req, res) => {
-    const inputId = req.body.id;
+    const inputId = sanitize(req.body.id);
         try{
             for (i = 0 ; i < inputId.length; i++) {
                 console.log(inputId[i])
@@ -162,15 +175,15 @@ exports.deleteManyContacts = async (req, res) => {
 }
 
 exports.addContact = async (req, res) => {
-    const database = req.body.database
-    const contactID = req.body.id;
-    const setFirstname = req.body.firstname;
-    const setLastname = req.body.lastname;
-    const setEmail = req.body.email;
-    const setPhone = req.body.phone;
-    const setCompany = req.body.company;
-    const setDepartment = req.body.department;
-    const setJobTitle = req.body.jobtitle;
+    const database = sanitize(req.body.database);
+    const contactID = sanitize(req.body.id);
+    const setFirstname = sanitize(req.body.firstname);
+    const setLastname = sanitize(req.body.lastname);
+    const setEmail = sanitize(req.body.email);
+    const setPhone = sanitize(req.body.phone);
+    const setCompany = sanitize(req.body.company);
+    const setDepartment = sanitize(req.body.department);
+    const setJobTitle = sanitize(req.body.jobtitle);
     try{
         console.log("Test")
         if(database === "MongoDB") {
