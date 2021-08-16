@@ -1,7 +1,8 @@
 const User = require('../models/User')
+const sanitize = require('mongo-sanitize');
 
 exports.register = async (req, res, next) => {
-    const { username, email, password } = req.body;
+    const { username, email, password } = sanitize(req.body);
     try{
         const user = await User.create({
             username, email, password
@@ -17,7 +18,7 @@ exports.register = async (req, res, next) => {
 }
 
 exports.login = async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password } = sanitize(req.body);
 
     if(!email || !password) {
         res.status(400).json({success: false, error: "Please provide email and password"})
@@ -36,7 +37,7 @@ exports.login = async (req, res, next) => {
 
         sendToken(user, 200, res)
     } catch (err) {
-        res.status(500).json({success: false, error: err.message})
+        // res.status(500).json({success: false, error: err.message})
     }
 }
 

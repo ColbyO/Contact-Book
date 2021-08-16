@@ -44,7 +44,7 @@ function NavBar() {
                     title={username}
                     menuVariant="light"
                     >
-                    <NavDropdown.Item href="">Bookmarks</NavDropdown.Item>
+                    <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
                     <NavDropdown.Item href="/history">History</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>

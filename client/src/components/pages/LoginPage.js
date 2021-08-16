@@ -61,7 +61,7 @@ function LoginPage({history}) {
           </Form>
         </Card.Body>
       </Card>
-      <div className="w-100 text-center mt-2">
+      <div className="w-100 text-center mt-2" style={{color: "black"}}>
         Need an account? <Link to="/register">Register</Link>
       </div>
         </div>

@@ -4,6 +4,7 @@ const searchLogs = require("../models/Logs");
 const pool = require('../config/pg');
 const sanitize = require('mongo-sanitize');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 exports.searchPostgreSQL = async (req, res) => {
     try{
@@ -121,6 +122,27 @@ exports.updateContactInfo = async (req, res) => {
             const updated = await Contacts.updateOne({id: contactID}, {$set: {firstname: setFirstname, lastname: setLastname, email: setEmail, phone: setPhone, company: setCompany, department: setDepartment, jobtitle: setJobTitle}})
             console.log(updated)
         }
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+exports.updateUser = async (req, res) => {
+    const userID = req.body.id;
+    const email = sanitize(req.body.email);
+    const password = sanitize(req.body.password)
+    const salt = await bcrypt.genSalt(10);
+    const hashed_password = await bcrypt.hash(password, salt)
+    try {
+        const user = await User.updateOne({_id: userID}, { $set: {email: email, password: hashed_password }}, function(err, result){
+            if(err){
+                res.json(err)
+            } else {
+                res.json(result)
+            }
+        })
+        res.json(user)
+        console.log(user)
     } catch (err) {
         console.error(err)
     }
