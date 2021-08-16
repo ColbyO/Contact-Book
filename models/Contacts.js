@@ -17,14 +17,22 @@ const contactsTemplate = new mongoose.Schema({
         type: String,
         required: true
     },
-    street_address: {
-        type: String, 
-        required: true
-    },
     phone: {
         type: String,
         required: true
-    }
+    },
+    company: {
+        type: String,
+        required: true
+    },
+    department: {
+        type: String,
+        required: true
+    },
+    jobtitle: {
+        type: String,
+        required: true
+    },
 })
 
 module.exports = mongoose.model('Contacts', contactsTemplate)

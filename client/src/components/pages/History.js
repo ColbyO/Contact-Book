@@ -5,7 +5,7 @@ import NavBar from '../page components/NavBar';
 
 function History() {
     const [Logs, setLogs] = useState()
-    const [user, setUser] = useState("")
+    const [user] = useState("")
 
     async function getAllLogs() {
         const config = {
