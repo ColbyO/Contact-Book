@@ -1,6 +1,9 @@
 const User = require("../models/User");
 const Contacts = require("../models/Contacts");
 const searchLogs = require("../models/Logs");
+const Folder = require("../models/Folder");
+const Bookmarked = require("../models/Bookmarked");
+const addToFolder = require("../models/addToFolder");
 const pool = require('../config/pg');
 const sanitize = require('mongo-sanitize');
 const jwt = require('jsonwebtoken');
@@ -180,16 +183,6 @@ exports.deleteManyContacts = async (req, res) => {
                 }
             }
         
-            // if (contact === null) {
-            //     const contacts = await pool.query("DELETE FROM contact_data WHERE (id)) IN ($1)", [inputId]);
-            //     res.json(contacts.rows)
-            //     console.log(contacts)
-            // }
-            // if (contact !== null) {
-            //     const contact = await Contacts.deleteMany({id: { $in: inputId}})
-            //     res.json(contact)
-            //     console.log(contact)
-            // }
         } catch (err) {
             console.error(err)
         }         
@@ -236,3 +229,109 @@ exports.getCurrentUser = async (req, res) => {
     }
 
 }
+
+exports.currentFolder = async (req, res) => {
+    const ID = req.body.id
+    try {
+        let currentFolder = await Folder.find({parentID: ID})
+        res.json(currentFolder)
+    } catch (err) {
+        console.error(err)
+    }   
+}
+
+exports.allFolder = async (req, res) => {
+    try {
+        let currentFolder = await Folder.find()
+        res.json(currentFolder)
+    } catch (err) {
+        console.error(err)
+    }   
+}
+
+exports.createFolder = async (req, res) => {
+    const ID = req.body.id
+    const folderName = sanitize(req.body.folderName)
+    const parentID = sanitize(req.body.parentID)
+    try {
+        const folder = new Folder({userID: ID, folderName: folderName, parentID: parentID})
+        res.json(folder)
+        await folder.save()
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+exports.deleteFolder = async (req, res) => {
+    const ID = req.body.id
+    try {
+        const deleteF = await Folder.deleteOne({_id: ID})
+        res.json(deleteF)
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+exports.addToFolder = async (req, res) => {
+    const contactID = req.body.contactID
+    const folderID = req.body.folderID
+    const setFirstname = sanitize(req.body.firstname);
+    const setLastname = sanitize(req.body.lastname);
+    const setEmail = sanitize(req.body.email);
+    const setPhone = sanitize(req.body.phone);
+    const setCompany = sanitize(req.body.company);
+    const setDepartment = sanitize(req.body.department);
+    const setJobTitle = sanitize(req.body.jobtitle);
+    try {
+        const newFavorite = new addToFolder({contactID: contactID, folderID: folderID, firstname: setFirstname, lastname: setLastname, email: setEmail, phone: setPhone, company: setCompany, department: setDepartment, jobtitle: setJobTitle})
+        res.json(newFavorite)
+        await newFavorite.save()
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+exports.getBookmarkContactByFolderID = async (req, res) => {
+    const folderID = req.body.folderID  
+    try {
+        const Contact = await addToFolder.find({folderID: folderID})
+        res.json(Contact)
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+exports.getContactById = async (req, res) => {
+    const inputId =sanitize(req.body.id);
+    try{
+        for (i = 0 ; i < inputId.length; i++) {
+            console.log(inputId[i])
+            const contact = await pool.query("SELECT * FROM contact_data WHERE id = $1", [inputId[i]])
+            if (contact.rows.length >= 1) {
+                const contacts = await pool.query("SELECT *  FROM contact_data WHERE id = $1", [inputId[i]]);
+                res.json(contacts.rows)
+            } else {
+                const contact = await Contacts.find({id: inputId[i]})
+                res.json(contact)
+            }
+        }
+    
+    } catch (err) {
+        console.error(err)
+    }   
+}
+
+// const contactID = req.body.id;
+// try{
+//     const contact = await Contacts.findOne({id: contactID})
+//     if (contact === null) {
+//         const contacts = await pool.query("SELECT * FROM contact_data WHERE id = $1", [contactID]);
+//         res.json(contacts.rows)
+//     }
+//     if (contact !== null) {
+//         const contact = await Contacts.findOne({id: contactID})
+//         res.json(contact)
+//     }
+// } catch (err) {
+//     console.error(err)
+// } 

@@ -14,12 +14,15 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import EditModal from './EditModal'
 import SearchCards from './SearchCards';
 import AddContact from './AddContact';
+import AddFavorite from './AddFavorite'
 
 
 function ListSearches({searchTerm}) {
     const [tableData, setTableData] = useState([])
     const [selectionModel, setSelectionModel] = useState([])
     const [editInfo, setEditInfo] = useState([])
+    // const [allFolders, setAllFolders] = useState([])
+    const [contact123, setContacts] = useState([])
     const [viewAddModal, setViewAddModal] = useState(false)
     const [view, setView] = useState('list');
     const [edit, setEdit] = useState(false);
@@ -37,7 +40,6 @@ function ListSearches({searchTerm}) {
                 id: id
             }
         })
-        console.log(currentContact.data[0])
         if (currentContact.data._id) {
             setEditInfo(currentContact.data)
         } else {
@@ -72,7 +74,6 @@ function ListSearches({searchTerm}) {
                     id: selectionModel[0]
                 }
             })
-            console.log(deleteContact.status)
             if (deleteContact.status === 200) {
                 window.location = "/"
             } else {
@@ -96,7 +97,6 @@ function ListSearches({searchTerm}) {
                     id: selectionModel
                 }
             })
-            console.log(deleteContact)
             if (deleteContact.status === 200) {
                 window.location = "/"
             } else {
@@ -106,6 +106,30 @@ function ListSearches({searchTerm}) {
             console.log("DIDNT DELETE")
         }        
     }
+
+    const getContact = async () => {
+    try {
+        let contacts = await axios({
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`
+            },
+            url: "http://localhost:5000/api/private/get/contactbyid",
+            data: {
+                id: selectionModel
+            }
+        }).then(data => {
+            setContacts(data.data)
+        })
+    } catch (err) {
+        console.error(err)
+    }
+    }
+    
+    useEffect(()=> {
+        getContact()
+    },[selectionModel])
 
     const columns = [
         {field: 'firstname', headerName: "First Name", width: 150},
@@ -148,7 +172,8 @@ function ListSearches({searchTerm}) {
                     }
                     {
                         selectionModel.length === 1 ? 
-                        <ButtonGroup style={{marginLeft: "86%"}}>
+                        <ButtonGroup style={{marginLeft: "81%"}}>
+                            <AddFavorite currentContact={selectionModel} contacts={contact123}  />
                             <IconButton aria-label="Edit" onClick={()=>{
                                      setEdit(!edit)
                                      getContactInfo()
@@ -166,7 +191,8 @@ function ListSearches({searchTerm}) {
                     }
                     {
                         selectionModel.length > 1 ? 
-                        <ButtonGroup style={{marginLeft: "89.7%"}}>
+                        <ButtonGroup style={{marginLeft: "86%"}}>
+                            {/* <AddFavorite /> */}
                             <IconButton aria-label="Delete" onClick={()=> {
                                 deleteManyContacts()
                             }}>
@@ -193,7 +219,6 @@ function ListSearches({searchTerm}) {
                     // onRowClick={(e)=> console.log(e.row)}
                     onSelectionModelChange={(newSelectionModel)=> {
                         setSelectionModel(newSelectionModel)
-                        console.log(newSelectionModel)
                     }}
                     selectionModel={selectionModel}
                     /> </div>
