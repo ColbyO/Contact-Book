@@ -16,6 +16,7 @@ const {searchPostgreSQL,
     allFolder,
     deleteFolder,
     addToFolder,
+    addManyToFolder,
     getContactById,
     getBookmarkContactByFolderID,
     deleteOneContactfromFolder
@@ -39,6 +40,8 @@ router.route("/add/folder").post(protect, createFolder)
 router.route("/get/currentfolder").post(protect, currentFolder)
 
 router.route("/addto/folder").post(protect, addToFolder)
+
+router.route("/addmanyto/folder").post(protect, addManyToFolder)
 
 router.route("/get/bookmarkcontent").post(protect, getBookmarkContactByFolderID)
 

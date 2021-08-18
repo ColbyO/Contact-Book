@@ -291,6 +291,31 @@ exports.addToFolder = async (req, res) => {
     }
 }
 
+exports.addManyToFolder = async (req, res) => {
+    const inputId = req.body.id
+    const contactID = req.body.contactID
+    const folderID = req.body.folderID
+    const setFirstname = sanitize(req.body.firstname);
+    const setLastname = sanitize(req.body.lastname);
+    const setEmail = sanitize(req.body.email);
+    const setPhone = sanitize(req.body.phone);
+    const setCompany = sanitize(req.body.company);
+    const setDepartment = sanitize(req.body.department);
+    const setJobTitle = sanitize(req.body.jobtitle);
+        try{
+            for (i = 0 ; i < inputId.length; i++) {
+                console.log(inputId[i])
+                const newFavorite = new addToFolder({contactID: contactID, folderID: folderID, firstname: setFirstname, lastname: setLastname, email: setEmail, phone: setPhone, company: setCompany, department: setDepartment, jobtitle: setJobTitle})
+                res.json(newFavorite)
+                newFavorite.save()
+            }
+        
+        } catch (err) {
+            console.error(err)
+        }         
+      
+}
+
 exports.getBookmarkContactByFolderID = async (req, res) => {
     const folderID = req.body.folderID  
     try {

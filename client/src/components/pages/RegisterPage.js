@@ -1,7 +1,15 @@
 import React,{useState, useEffect} from 'react'
+import './css/main.css'
 import axios from 'axios'
 import { Container, Form, Button, Card, Alert } from "react-bootstrap"
+import { FormControl, Input, InputLabel, InputAdornment, Button as Button1 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+
+import NotAuthNavBar from '../page components/NotAuthNavBar'
+
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import EmailIcon from '@material-ui/icons/Email';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 function RegisterPage({ history }) {
     const [username, setUsername] = useState("")
@@ -49,41 +57,46 @@ function RegisterPage({ history }) {
     }
 
     return (
-        <Container
-        className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-        <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Card>
+      <div className="main-body">
+        <div className="w-100" style={{ maxWidth: "600px", marginLeft: "0.3%", marginTop: "0.3%" }}>
+        <Card style={{height: "934px", boxShadow: "0px 1px 100px 4px rgba(0,0,0,0.41)"}}>
         <Card.Body>
           <h2 className="text-center mb-4">Sign Up</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={registerHandler}>
-            <Form.Group id="username">
-              <Form.Label>Username</Form.Label>
-              <Form.Control type="username" onChange={(e)=> setUsername(e.target.value)} required />
-            </Form.Group>              
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" onChange={(e)=> setEmail(e.target.value)} required />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" onChange={(e)=> setPassword(e.target.value)} required />
-            </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control type="password" onChange={(e)=> setConfirmPassword(e.target.value)} required />
-            </Form.Group>
-            <Button disabled={loading} className="w-100 mt-3" type="submit">
-              Sign Up
-            </Button>
+          <Form onSubmit={registerHandler}  style={{marginTop: "1%"}}>
+            <section style={{marginLeft: "10%"}}>
+            <FormControl style={{width: "90%"}}>
+              <InputLabel htmlFor="username" >Username</InputLabel>
+              <Input id="username" startAdornment={<InputAdornment position="start"><AccountCircle /></InputAdornment>} required type="username" onChange={(e)=> setUsername(e.target.value)}/>
+            </FormControl >
+            <FormControl style={{width: "90%"}}>
+              <InputLabel htmlFor="email" >Email</InputLabel>
+              <Input id="email" startAdornment={<InputAdornment position="start"><EmailIcon /></InputAdornment>} required type="email" onChange={(e)=> setEmail(e.target.value)}/>
+            </FormControl>
+            <FormControl style={{width: "90%"}}>
+              <InputLabel htmlFor="password" >Password</InputLabel>
+              <Input id="password" startAdornment={<InputAdornment position="start"><VpnKeyIcon /></InputAdornment>} type="password" required onChange={(e)=> setPassword(e.target.value)}/>
+            </FormControl>
+            <FormControl style={{width: "90%"}}>
+              <InputLabel htmlFor="password-confirm" >Confirm Passoword</InputLabel>
+              <Input id="password-confirm" startAdornment={<InputAdornment position="start"><VpnKeyIcon /></InputAdornment>} type="password" required onChange={(e)=> setConfirmPassword(e.target.value)}/>
+            </FormControl>
+            </section>
+            <section style={{marginTop: "50px"}}>
+              <Button1 disabled={loading} className="w-100" type="submit"variant="contained" color="primary">
+                Sign Up
+              </Button1>
+            </section>
           </Form>
         </Card.Body>
+        <Card.Footer>
+        <footer className="w-100 text-center">
+          Already have an account? <Link to="/login">Log In</Link>
+        </footer>
+        </Card.Footer>
       </Card>
-      <div className="w-100 text-center mt-2">
-        Already have an account? <Link to="/login">Log In</Link>
-      </div>
         </div>
-      </Container>
+      </div>
     )
 }
 

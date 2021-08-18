@@ -30,7 +30,7 @@ function NavBar() {
     }, [])
 
     return (
-        <Navbar variant="light">
+        <Navbar variant="dark" bg="primary">
             <Container>
                 <Navbar.Brand href="/">Contact Book</Navbar.Brand>
                 <Navbar.Toggle />

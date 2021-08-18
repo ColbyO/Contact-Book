@@ -132,7 +132,7 @@ function ListSearches({searchTerm}) {
     },[selectionModel])
 
     const columns = [
-        {field: 'firstname', headerName: "First Name", width: 150},
+        {field: 'firstname', headerName: "First Name", width: 150, headerClassName: 'super-app-theme--header'},
         {field: 'lastname', headerName: "Last Name", width: 150},
         {field: 'company', headerName: "Company", width: 250},
         {field: 'department', headerName: "Department", width: 250},
@@ -210,8 +210,9 @@ function ListSearches({searchTerm}) {
                 </div>
                 {
                     view === "list" ? 
-                    <div style={{height: 650, width: '100%', marginTop: "15px"}}>
+                    <div style={{height: 650, width: '100%', marginTop: "15px"}} >
                     <DataGrid
+                    style={{backgroundColor: "white"}}
                     rows={tableData}
                     columns={columns}
                     pageSize={10}

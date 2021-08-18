@@ -1,7 +1,14 @@
 import React, {useState, useEffect} from 'react'
+import './css/main.css'
 import axios from 'axios'
 import { Container, Form, Button, Card, Alert } from "react-bootstrap"
+import { FormControl, Input, InputLabel, InputAdornment, Button as Button1 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import NotAuthNavBar from '../page components/NotAuthNavBar'
+
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import EmailIcon from '@material-ui/icons/Email';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 function LoginPage({history}) {
     const [email, setEmail] = useState("")
@@ -38,34 +45,38 @@ function LoginPage({history}) {
     }
 
     return (
-        <Container
-        className="d-flex align-items-center justify-content-center"
-        style={{ minHeight: "100vh" }}>
-        <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Card>
+      <div className="main-body">
+        <div className="w-100" style={{ maxWidth: "600px", marginLeft: "68.4%", marginTop: "0.3%" }}>
+        <Card style={{height: "934px", borderRadius: "15px", boxShadow: "0px 1px 100px 4px rgba(0,0,0,0.41)"}}>
         <Card.Body>
           <h2 className="text-center mb-4">Log In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={loginHandler}>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" onChange={(e)=> setEmail(e.target.value)} required />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" onChange={(e)=> setPassword(e.target.value)} required />
-            </Form.Group>
-            <Button disabled={loading} className="w-100 mt-3" type="submit">
-              Log In
-            </Button>
+            <Form style={{marginTop: "20%"}} onSubmit={loginHandler}>
+            <section style={{marginLeft: "10%"}}>
+            <FormControl style={{width: "90%"}}>
+              <InputLabel htmlFor="email" >Email</InputLabel>
+              <Input id="email" startAdornment={<InputAdornment position="start"><EmailIcon /></InputAdornment>} required type="email" onChange={(e)=> setEmail(e.target.value)} />
+            </FormControl>
+            <FormControl style={{width: "90%"}} >
+              <InputLabel htmlFor="password" >Password</InputLabel>
+              <Input id="password" startAdornment={<InputAdornment position="start"><VpnKeyIcon /></InputAdornment>} type="password" required  onChange={(e)=> setPassword(e.target.value)}/>
+            </FormControl>
+            </section>
+            <section style={{marginTop: "50px"}}>
+              <Button1 disabled={loading} className="w-100" type="submit"variant="contained" color="primary">
+                Log In
+              </Button1>
+            </section>
           </Form>
         </Card.Body>
-      </Card>
-      <div className="w-100 text-center mt-2" style={{color: "black"}}>
+        <Card.Footer>
+        <footer className="w-100 text-center" style={{color: "black"}}>
         Need an account? <Link to="/register">Register</Link>
-      </div>
+      </footer>
+        </Card.Footer>
+      </Card>
         </div>
-      </Container>
+      </div>
     )
 }
 
