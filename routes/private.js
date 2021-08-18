@@ -17,7 +17,8 @@ const {searchPostgreSQL,
     deleteFolder,
     addToFolder,
     getContactById,
-    getBookmarkContactByFolderID
+    getBookmarkContactByFolderID,
+    deleteOneContactfromFolder
 } = require("../controllers/private")
 const { protect } = require('../middleware/auth')
 
@@ -56,6 +57,8 @@ router.route("/delete/contact").delete(protect, deleteOneContact)
 router.route("/delete/contacts").delete(protect, deleteManyContacts)
 
 router.route("/delete/folder").delete(protect, deleteFolder)
+
+router.route("/delete/contactfromfolder").delete(protect, deleteOneContactfromFolder)
 
 
 

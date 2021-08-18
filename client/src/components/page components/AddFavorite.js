@@ -79,7 +79,6 @@ export default function AddFolderButton({ currentContact, contacts }) {
             <FormControl>
               <InputLabel id="folder-select-label">Choose Folder</InputLabel>
               <Select onChange={handleChange} value={selectFolder} labelId="folder-select-label" style={{width: "200px"}}>
-                  <MenuItem value="ROOT">Main Page</MenuItem>
                     {
                         allFolders.map(keyWord => <MenuItem key={keyWord._id} value={keyWord._id}>{keyWord.folderName}</MenuItem>)
                     }

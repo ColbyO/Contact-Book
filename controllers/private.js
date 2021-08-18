@@ -321,17 +321,13 @@ exports.getContactById = async (req, res) => {
     }   
 }
 
-// const contactID = req.body.id;
-// try{
-//     const contact = await Contacts.findOne({id: contactID})
-//     if (contact === null) {
-//         const contacts = await pool.query("SELECT * FROM contact_data WHERE id = $1", [contactID]);
-//         res.json(contacts.rows)
-//     }
-//     if (contact !== null) {
-//         const contact = await Contacts.findOne({id: contactID})
-//         res.json(contact)
-//     }
-// } catch (err) {
-//     console.error(err)
-// } 
+
+exports.deleteOneContactfromFolder = async (req, res) => {
+    const ID = req.body.id;
+    try{
+        const contact = await addToFolder.findOneAndDelete({_id: ID})
+        res.json(contact)
+    } catch (err) {
+        console.error(err)
+    } 
+}

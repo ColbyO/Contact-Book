@@ -96,12 +96,12 @@ function InFolder() {
             </section>
             <section style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "10px"}} >
             {
-                currentFolder.map(keyWord=> <Folder currentFolder={keyWord} />)
+                currentFolder.map(keyWord=> <Folder key={keyWord.id || keyWord._id} currentFolder={keyWord} />)
             }
             </section>
             <section>
                 {
-                    contents.map(keyWord => <FavoriteCards searchTerm={keyWord} />)
+                    contents.map(keyWord => <FavoriteCards key={keyWord.id || keyWord._id} searchTerm={keyWord} />)
                 }
             </section>
         </div>
