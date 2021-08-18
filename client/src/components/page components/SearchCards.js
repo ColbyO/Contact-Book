@@ -9,6 +9,8 @@ import CardModal from './CardModal';
 import EditModal from './EditModal'
 
 function SearchCards({searchTerm}) {
+    const classes = ["orange", "lightblue", "lightgray", "lightgreen", "lightred"]
+
     const [tableData, setTableData] = useState([])
     const [modalInfo, setModalInfo] = useState([]);
     const [selectModal, setselectModal] = useState([]);
@@ -97,7 +99,7 @@ function SearchCards({searchTerm}) {
                                 </IconButton>
                             </ButtonGroup> 
                             </div>
-                <Avatar style={{marginLeft: "20%", marginTop: "-35px", backgroundColor: "orange", color: "black"}}>T</Avatar>
+                <Avatar style={{marginLeft: "20%", marginTop: "-35px", color: "black", backgroundColor: classes[Math.floor(Math.random() * 5)]}}>{keyWord.firstname[0]}</Avatar>
                 <Typography align="left" variant="h5" style={{marginLeft: "10%", marginTop: "10px"}} >{keyWord.firstname + " " + keyWord.lastname}</Typography>
                 <Typography align="left" variant="h6" style={{marginLeft: "10%"}}>{keyWord.department}</Typography>
                 <Typography align="left" variant="subtitle1" style={{marginLeft: "10%"}}>{keyWord.company}</Typography>

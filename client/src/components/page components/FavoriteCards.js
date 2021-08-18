@@ -8,6 +8,7 @@ import CardModal from './CardModal';
 import EditModal from './EditModal'
 
 function SearchCards({searchTerm}) {
+    const classes = ["orange", "lightblue", "lightgray", "lightgreen", "lightred"]
     let { folderid } = useParams();
     const [modalInfo, setModalInfo] = useState([]);
     const [selectModal, setselectModal] = useState("");
@@ -83,7 +84,7 @@ function SearchCards({searchTerm}) {
                                 </IconButton>
                             </ButtonGroup> 
                             </div>
-                <Avatar style={{marginLeft: "20%", marginTop: "-35px", backgroundColor: "orange", color: "black"}}>{searchTerm.firstname[0]}</Avatar>
+                <Avatar style={{marginLeft: "20%", marginTop: "-35px", backgroundColor: classes[Math.floor(Math.random() * 5)], color: "black"}}>{searchTerm.firstname[0]}</Avatar>
                 <Typography align="left" variant="h5" style={{marginLeft: "10%", marginTop: "10px"}} >{searchTerm.firstname + " " + searchTerm.lastname}</Typography>
                 <Typography align="left" variant="h6" style={{marginLeft: "10%"}}>{searchTerm.department}</Typography>
                 <Typography align="left" variant="subtitle1" style={{marginLeft: "10%"}}>{searchTerm.company}</Typography>
