@@ -327,7 +327,6 @@ exports.getContactById = async (req, res) => {
     const inputId = sanitize(req.body.id);
     try{
         for (i = 0 ; i < inputId.length; i++) {
-            console.log(inputId[i])
             const contact = await pool.query("SELECT * FROM contact_data WHERE id = $1", [inputId[i]])
             if (contact.rows.length >= 1) {
                 const contacts = await pool.query("SELECT *  FROM contact_data WHERE id = $1", [inputId[i]]);
@@ -346,8 +345,6 @@ exports.getContactById = async (req, res) => {
 exports.getMultipleContactsById = async (req, res) => {
     const inputId = req.body.id;
     try{
-        // for (i = 0 ; i < inputId.length; i++) {
-            console.log(inputId)
             const contact = await pool.query("SELECT * FROM contact_data WHERE id = $1", [inputId])
             if (contact.rows.length >= 1) {
                 const contacts = await pool.query("SELECT *  FROM contact_data WHERE id = $1", [inputId]);
@@ -356,7 +353,6 @@ exports.getMultipleContactsById = async (req, res) => {
                 const contact = await Contacts.find({id: inputId[i]})
                 res.json(contact)
             }
-        // }
     
     } catch (err) {
         console.error(err)
