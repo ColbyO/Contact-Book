@@ -5,8 +5,6 @@ import { Container, Form, Button, Card, Alert } from "react-bootstrap"
 import { FormControl, Input, InputLabel, InputAdornment, Button as Button1 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 
-import NotAuthNavBar from '../page components/NotAuthNavBar'
-
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/Email';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';

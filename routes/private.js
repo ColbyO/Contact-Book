@@ -18,6 +18,7 @@ const {searchPostgreSQL,
     addToFolder,
     addManyToFolder,
     getContactById,
+    getMultipleContactsById,
     getBookmarkContactByFolderID,
     deleteOneContactfromFolder
 } = require("../controllers/private")
@@ -46,6 +47,8 @@ router.route("/addmanyto/folder").post(protect, addManyToFolder)
 router.route("/get/bookmarkcontent").post(protect, getBookmarkContactByFolderID)
 
 router.route("/get/contactbyid").post(protect, getContactById)
+
+router.route("/get/multiplecontactsbyid").post(protect, getMultipleContactsById)
 
 router.route("/update/user").put(protect, updateUser)
 

@@ -303,13 +303,10 @@ exports.addManyToFolder = async (req, res) => {
     const setDepartment = sanitize(req.body.department);
     const setJobTitle = sanitize(req.body.jobtitle);
         try{
-            for (i = 0 ; i < inputId.length; i++) {
-                console.log(inputId[i])
-                const newFavorite = new addToFolder({contactID: contactID, folderID: folderID, firstname: setFirstname, lastname: setLastname, email: setEmail, phone: setPhone, company: setCompany, department: setDepartment, jobtitle: setJobTitle})
-                res.json(newFavorite)
-                newFavorite.save()
-            }
-        
+            console.log(inputId[i])
+            const newFavorite = new addToFolder({contactID: contactID, folderID: folderID, firstname: setFirstname, lastname: setLastname, email: setEmail, phone: setPhone, company: setCompany, department: setDepartment, jobtitle: setJobTitle})
+            res.json(newFavorite)
+            newFavorite.save()
         } catch (err) {
             console.error(err)
         }         
@@ -340,6 +337,26 @@ exports.getContactById = async (req, res) => {
                 res.json(contact)
             }
         }
+    
+    } catch (err) {
+        console.error(err)
+    }   
+}
+
+exports.getMultipleContactsById = async (req, res) => {
+    const inputId = req.body.id;
+    try{
+        // for (i = 0 ; i < inputId.length; i++) {
+            console.log(inputId)
+            const contact = await pool.query("SELECT * FROM contact_data WHERE id = $1", [inputId])
+            if (contact.rows.length >= 1) {
+                const contacts = await pool.query("SELECT *  FROM contact_data WHERE id = $1", [inputId]);
+                res.json(contacts.rows)
+            } else {
+                const contact = await Contacts.find({id: inputId[i]})
+                res.json(contact)
+            }
+        // }
     
     } catch (err) {
         console.error(err)

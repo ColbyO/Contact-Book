@@ -108,23 +108,50 @@ function ListSearches({searchTerm}) {
     }
 
     const getContact = async () => {
-    try {
-        let contacts = await axios({
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`
-            },
-            url: "http://localhost:5000/api/private/get/contactbyid",
-            data: {
-                id: selectionModel
+        let contactsArray = []
+        if (selectionModel.length >= 2) {
+            try {
+                for (let i = 0 ; i < selectionModel.length; i++) {
+                    let contacts = await axios({
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${localStorage.getItem("authToken")}`
+                        },
+                        url: "http://localhost:5000/api/private/get/multiplecontactsbyid",
+                        data: {
+                            id: selectionModel[i]
+                        }
+                    }).then(data => {
+                        contactsArray.push(data.data)
+                        setContacts(contactsArray)
+                    })                   
+                }
+
+            } catch (err) {
+                console.error(err)
             }
-        }).then(data => {
-            setContacts(data.data)
-        })
-    } catch (err) {
-        console.error(err)
-    }
+        
+        } else {
+            try {
+                let contacts = await axios({
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("authToken")}`
+                    },
+                    url: "http://localhost:5000/api/private/get/contactbyid",
+                    data: {
+                        id: selectionModel
+                    }
+                }).then(data => {
+                    setContacts(data.data)
+                })
+            } catch (err) {
+                console.error(err)
+            }
+        }
+
     }
     
     useEffect(()=> {
@@ -192,7 +219,7 @@ function ListSearches({searchTerm}) {
                     {
                         selectionModel.length > 1 ? 
                         <ButtonGroup style={{marginLeft: "86%"}}>
-                            {/* <AddFavorite /> */}
+                            <AddFavorite currentContact={selectionModel} contacts={contact123}  />
                             <IconButton aria-label="Delete" onClick={()=> {
                                 deleteManyContacts()
                             }}>
