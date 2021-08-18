@@ -187,19 +187,18 @@ function ListSearches({searchTerm}) {
                             <ViewListIcon />
                         </ToggleButton>
                     </ToggleButtonGroup>
-                    {
-                        selectionModel.length < 1 ?
+
                         <ButtonGroup style={{marginLeft: "89.8%"}}>
                         <IconButton aria-label="Add" onClick={()=> {
                             setViewAddModal(!viewAddModal)
                         }}>
                             <AddIcon />
                         </IconButton>
-                        </ButtonGroup> : <></>
-                    }
+                        </ButtonGroup>
+                    
                     {
-                        selectionModel.length === 1 ? 
-                        <ButtonGroup style={{marginLeft: "81%"}}>
+                        selectionModel.length === 1 && view === "list" ? 
+                        <ButtonGroup style={{marginLeft: "-17%"}}>
                             <AddFavorite currentContact={selectionModel} contacts={contact123}  />
                             <IconButton aria-label="Edit" onClick={()=>{
                                      setEdit(!edit)
@@ -217,8 +216,8 @@ function ListSearches({searchTerm}) {
                         : <></>
                     }
                     {
-                        selectionModel.length > 1 ? 
-                        <ButtonGroup style={{marginLeft: "86%"}}>
+                        selectionModel.length > 1 && view === "list" ? 
+                        <ButtonGroup style={{marginLeft: "-12.7%"}}>
                             <AddFavorite currentContact={selectionModel} contacts={contact123}  />
                             <IconButton aria-label="Delete" onClick={()=> {
                                 deleteManyContacts()
