@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -41,31 +42,22 @@ function CardModal({view, info, close}) {
           <Card style={{width: "35%"}}>
           <Card.Body>
             <h2 className="text-center mb-4">{info.firstname + " " + info.lastname}</h2>
-            <Form >
-              <Form.Group id="email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control placeholder={info.email}/>
-              </Form.Group>              
-              <Form.Group id="phone">
-                <Form.Label>Phone</Form.Label>
-                <Form.Control placeholder={info.phone}/>
-              </Form.Group>
-              <Form.Group id="company">
-                <Form.Label>Employer</Form.Label><br></br>
-                <Form.Control placeholder={info.company}/>
-              </Form.Group>
-              <Form.Group id="deparment">
-                <Form.Label>Department</Form.Label>
-                <Form.Control placeholder={info.department}/>
-              </Form.Group>
-              <Form.Group id="jobtitle">
-                <Form.Label>Job Title</Form.Label>
-                <Form.Control placeholder={info.jobtitle}/>
-              </Form.Group>
+            <Avatar style={{marginLeft: "46%"}}>{info.firstname[0]}</Avatar>
+              <section style={{textAlign: "center", paddingTop: "25px"}}>
+                <h6>Email</h6>
+                <p>info.email</p>
+                <h6>Phone</h6>
+                <p>{info.phone}</p>
+                <h6>Employer</h6>
+                <p>{info.company}</p>
+                <h6>Department</h6>
+                <p>{info.department}</p>
+                <h6>Job Title</h6>
+                <p>{info.jobtitle}</p>
+                </section>
               <Button className="w-100 mt-3" onClick={close}>
                 Close
               </Button>
-            </Form>
           </Card.Body>
         </Card>
           </Fade>
