@@ -302,7 +302,7 @@ exports.getBookmarkContactByFolderID = async (req, res) => {
 }
 
 exports.getContactById = async (req, res) => {
-    const inputId =sanitize(req.body.id);
+    const inputId = sanitize(req.body.id);
     try{
         for (i = 0 ; i < inputId.length; i++) {
             console.log(inputId[i])

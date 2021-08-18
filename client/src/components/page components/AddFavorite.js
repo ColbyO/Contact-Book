@@ -9,7 +9,6 @@ export default function AddFolderButton({ currentContact, contacts }) {
     const [allFolders, setAllFolders] = useState([])
     const [selectFolder, setSelectFolder] = useState('')
     const [open, setOpen] = useState(false)
-     const [name, setName] = useState("")
 
   const getAllFolders = async () => {
       let Folders = await axios({
@@ -25,7 +24,33 @@ export default function AddFolderButton({ currentContact, contacts }) {
   }
 
   const addToFolder = async () => {
-    let toFolder = await axios({
+    console.log(contacts) // all info (eg. firstname, lastname, etc)
+    console.log(currentContact) // id (eg. 1078)
+    if (contacts.firstname !== undefined) {
+      let toFolder = await axios({
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`
+      },
+      url: "http://localhost:5000/api/private/addto/folder",
+      data: {
+          contactID: contacts.id,
+          folderID: selectFolder,
+          firstname: contacts.firstname,
+          lastname: contacts.lastname, 
+          email: contacts.email,
+          phone: contacts.phone,
+          company: contacts.company,
+          department: contacts.department,
+          jobtitle: contacts.jobtitle
+      }
+    })
+  if (toFolder.status === 200) {
+      alert("Successfully added to Folder")
+  }     
+    } else {
+      let toFolder = await axios({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,18 +60,20 @@ export default function AddFolderButton({ currentContact, contacts }) {
       data: {
           contactID: JSON.parse(currentContact),
           folderID: selectFolder,
-          firstname: contacts[0].firstname,
-          lastname: contacts[0].lastname,
-          email: contacts[0].email,
-          phone: contacts[0].phone,
-          company: contacts[0].company,
-          department: contacts[0].department,
-          jobtitle: contacts[0].jobtitle
+          firstname: contacts[0].firstname || contacts.firstname,
+          lastname: contacts[0].lastname || contacts.lastname, 
+          email: contacts[0].email || contacts.email,
+          phone: contacts[0].phone || contacts.phone,
+          company: contacts[0].company || contacts.company,
+          department: contacts[0].department || contacts.department,
+          jobtitle: contacts[0].jobtitle || contacts.jobtitle
       }
     })
   if (toFolder.status === 200) {
       alert("Successfully added to Folder")
   }
+    }
+
 }
 
 

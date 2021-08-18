@@ -24,7 +24,7 @@ function ListSearches({searchTerm}) {
     // const [allFolders, setAllFolders] = useState([])
     const [contact123, setContacts] = useState([])
     const [viewAddModal, setViewAddModal] = useState(false)
-    const [view, setView] = useState('list');
+    const [view, setView] = useState('module');
     const [edit, setEdit] = useState(false);
 
     const getContactInfo = async () => {
@@ -153,11 +153,11 @@ function ListSearches({searchTerm}) {
             <div>
                 <div style={{display: "flex"}}>
                     <ToggleButtonGroup orientation="horizontal" value={view} exclusive onChange={handleViewChange}>
+                    <ToggleButton value="module" aria-label="module">
+                            <ViewModuleIcon />
+                        </ToggleButton>
                         <ToggleButton value="list" aria-label="list">
                             <ViewListIcon />
-                        </ToggleButton>
-                        <ToggleButton value="module" aria-label="module">
-                            <ViewModuleIcon />
                         </ToggleButton>
                     </ToggleButtonGroup>
                     {

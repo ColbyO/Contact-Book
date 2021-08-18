@@ -7,6 +7,7 @@ import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import React, {useState, useEffect} from 'react'
 import CardModal from './CardModal';
 import EditModal from './EditModal'
+import AddFavorite from './AddFavorite'
 
 function SearchCards({searchTerm}) {
     const classes = ["orange", "lightblue", "lightgray", "lightgreen", "lightred"]
@@ -14,6 +15,8 @@ function SearchCards({searchTerm}) {
     const [tableData, setTableData] = useState([])
     const [modalInfo, setModalInfo] = useState([]);
     const [selectModal, setselectModal] = useState([]);
+    const [selectionModel, setSelectionModel] = useState([])
+    const [contact123, setContacts] = useState([])
     const [openModal, setOpenModal] = useState(false);
     const [edit, setEdit] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,7 +29,7 @@ function SearchCards({searchTerm}) {
 
     useEffect(()=>{
         setTableData(searchTerm)
-    },[])
+    },[searchTerm])
 
     const getContactInfo = async () => {
         let currentContact = await axios({
@@ -48,6 +51,30 @@ function SearchCards({searchTerm}) {
 
     }
 
+    // const getContact = async () => {
+    //     try {
+    //         let contacts = await axios({
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Authorization: `Bearer ${localStorage.getItem("authToken")}`
+    //             },
+    //             url: "http://localhost:5000/api/private/get/contactbyid",
+    //             data: {
+    //                 id: selectModal[0]
+    //             }
+    //         }).then(data => {
+    //             setContacts(data.data)
+    //         })
+    //     } catch (err) {
+    //         console.error(err)
+    //     }
+    //     }
+
+    //     useEffect(()=> {
+    //         getContact()
+    //     },[])
+
     const deleteOneContact = async () => {
         if (window.confirm("Are you sure you want to delete this contact?")) {
             let deleteContact = await axios({
@@ -58,7 +85,7 @@ function SearchCards({searchTerm}) {
                 },
                 url: "http://localhost:5000/api/private/delete/contact",
                 data: {
-                    id: selectModal.id
+                    id: contact123.id
                 }
             })
             console.log(deleteContact)
@@ -81,8 +108,8 @@ function SearchCards({searchTerm}) {
         {
             currentPosts.map(keyWord => 
                 <div style={{height: "250px"}}>
-                <Paper style={{width: "300px", height: "200px"}} key={keyWord.id} >
-                <div style={{marginLeft: "68%", marginTop: "2%"}}>
+                <Paper style={{width: "300px", height: "200px"}} key={keyWord.id} onClick={()=> setContacts(keyWord)}>
+                <div style={{marginLeft: "52.5%", marginTop: "2%"}}>
                             <ButtonGroup>
                                 <IconButton aria-label="Edit" onClick={()=> {
                                         setModalInfo(keyWord)
@@ -97,6 +124,7 @@ function SearchCards({searchTerm}) {
                                     }} >
                                     <DeleteIcon />
                                 </IconButton>
+                                <AddFavorite currentContact={contact123.id} contacts={contact123}/>
                             </ButtonGroup> 
                             </div>
                 <Avatar style={{marginLeft: "20%", marginTop: "-35px", color: "black", backgroundColor: classes[Math.floor(Math.random() * 5)]}}>{keyWord.firstname[0]}</Avatar>
