@@ -62,7 +62,7 @@ function InFolder() {
         getCurrentUser()
         getCurrentFolder()
         getFolderContents()
-    })
+    }, [])
 
 
     const deleteFolder = async () => {
@@ -99,7 +99,7 @@ function InFolder() {
                 currentFolder.map(keyWord=> <Folder key={keyWord.id || keyWord._id} currentFolder={keyWord} />)
             }
             </section>
-            <section>
+            <section style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "10px", marginLeft: "30px", marginTop: "2%"}} >
                 {
                     contents.map(keyWord => <FavoriteCards key={keyWord.id || keyWord._id} searchTerm={keyWord} />)
                 }
