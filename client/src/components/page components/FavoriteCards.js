@@ -71,9 +71,10 @@ function SearchCards({searchTerm}) {
     return (
         <div>
         <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "10px"}}>
-                <div style={{height: "250px"}}>
-                <Paper style={{width: "300px", height: "200px"}} key={searchTerm.id} >
-                <div style={{marginLeft: "85%", marginTop: "2%"}}>
+                <div style={{height: "320px"}}>
+                <Paper style={{width: "300px", height: "300px", boxShadow: "0px 1px 10px 1px rgba(0,0,0,0.41)", borderRadius: "15px"}} key={searchTerm.id} >
+                <header style={{backgroundColor: "#0d6efd", height: "45%", borderRadius: "15px", boxShadow: "0px 15px 22px 5px rgba(0,0,0,0.1)"}}>
+                            <section style={{transform: "scale(0.8)", marginTop: "2%", marginLeft: "-10%"}}>
                             <ButtonGroup>
                                 <IconButton aria-label="Delete" onClick={async ()=> {
                                     console.log(searchTerm)
@@ -83,18 +84,22 @@ function SearchCards({searchTerm}) {
                                     <CloseIcon />
                                 </IconButton>
                             </ButtonGroup> 
-                            </div>
-                <Avatar style={{marginLeft: "20%", marginTop: "-35px", backgroundColor: classes[Math.floor(Math.random() * 5)], color: "black"}}>{searchTerm.firstname[0]}</Avatar>
-                <Typography align="left" variant="h5" style={{marginLeft: "10%", marginTop: "10px"}} >{searchTerm.firstname + " " + searchTerm.lastname}</Typography>
-                <Typography align="left" variant="h6" style={{marginLeft: "10%"}}>{searchTerm.department}</Typography>
-                <Typography align="left" variant="subtitle1" style={{marginLeft: "10%"}}>{searchTerm.company}</Typography>
-                <Typography align="left" variant="subtitle2" style={{marginLeft: "10%"}}>{searchTerm.jobtitle}</Typography>
-                <IconButton style={{marginLeft: "83%", marginTop: "-12%"}}>
-                    <OpenInNewIcon onClick={()=> {
-                    setModalInfo(searchTerm)
-                    setOpenModal(!openModal)
-                    }}  />
-                </IconButton>
+                            </section>
+                            <IconButton style={{marginLeft: "83%", marginTop: "-25%"}}>
+                                <OpenInNewIcon onClick={()=> {
+                                setModalInfo(searchTerm)
+                                setOpenModal(!openModal)
+                                }}  />
+                            </IconButton>
+                            </header>
+                <Avatar variant="rounded"
+                style={{marginLeft: "44%", marginTop: "-35px", color: "black", transform: "scale(2.0)",backgroundColor: classes[Math.floor(Math.random() * 5)], color: "black"}}>{searchTerm.firstname[0]}</Avatar>
+                <section style={{paddingTop: "25px"}}>
+                <Typography align="left" variant="h5" style={{marginTop: "10px", textAlign: "center"}}>{searchTerm.firstname + " " + searchTerm.lastname}</Typography>
+                <Typography align="left" variant="h6" style={{textAlign: "center"}}>{searchTerm.department}</Typography>
+                <Typography align="left" variant="subtitle1" style={{textAlign: "center"}}>{searchTerm.company}</Typography>
+                <Typography align="left" variant="subtitle2" style={{textAlign: "center"}}>{searchTerm.jobtitle}</Typography>
+                </section>
             </Paper>
             </div>
                 

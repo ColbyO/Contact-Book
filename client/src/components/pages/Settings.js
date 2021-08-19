@@ -26,6 +26,7 @@ function Settings() {
             }
         })
         setCurrentUser(currentUser.data)
+        setEmail(currentUser.data.email)
         console.log(currentUser.data)
     }
 

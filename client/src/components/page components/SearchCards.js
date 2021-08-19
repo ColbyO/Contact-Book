@@ -20,7 +20,7 @@ function SearchCards({searchTerm}) {
     const [openModal, setOpenModal] = useState(false);
     const [edit, setEdit] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(8);
+    const [postsPerPage] = useState(6);
 
     const closeModalHandler = () => {
         setOpenModal(false)
@@ -104,12 +104,13 @@ function SearchCards({searchTerm}) {
 
     return (
         <div>
-        <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "10px"}}>
+        <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "25px"}}>
         {
             currentPosts.map(keyWord => 
-                <div style={{height: "250px"}}>
-                <Paper style={{width: "300px", height: "200px"}} key={keyWord.id} onClick={()=> setContacts(keyWord)}>
-                <div style={{marginLeft: "52.5%", marginTop: "2%"}}>
+                <div style={{height: "320px"}}>
+                <Paper style={{width: "300px", height: "300px", boxShadow: "0px 1px 10px 1px rgba(0,0,0,0.41)", borderRadius: "15px"}} key={keyWord.id} onClick={()=> setContacts(keyWord)}>
+                    <header style={{backgroundColor: "#0d6efd", height: "45%", borderRadius: "15px", boxShadow: "0px 15px 22px 5px rgba(0,0,0,0.1)"}}>
+                    <section style={{transform: "scale(0.8)", marginTop: "2%", marginLeft: "-10%"}}>
                             <ButtonGroup>
                                 <IconButton aria-label="Edit" onClick={()=> {
                                         setModalInfo(keyWord)
@@ -126,18 +127,31 @@ function SearchCards({searchTerm}) {
                                 </IconButton>
                                 <AddFavorite currentContact={contact123.id} contacts={contact123}/>
                             </ButtonGroup> 
-                            </div>
-                <Avatar style={{marginLeft: "20%", marginTop: "-35px", color: "black", backgroundColor: classes[Math.floor(Math.random() * 5)]}}>{keyWord.firstname[0]}</Avatar>
-                <Typography align="left" variant="h5" style={{marginLeft: "10%", marginTop: "10px"}} >{keyWord.firstname + " " + keyWord.lastname}</Typography>
-                <Typography align="left" variant="h6" style={{marginLeft: "10%"}}>{keyWord.department}</Typography>
-                <Typography align="left" variant="subtitle1" style={{marginLeft: "10%"}}>{keyWord.company}</Typography>
-                <Typography align="left" variant="subtitle2" style={{marginLeft: "10%"}}>{keyWord.jobtitle}</Typography>
-                <IconButton style={{marginLeft: "83%", marginTop: "-12%"}}>
-                    <OpenInNewIcon onClick={()=> {
-                    setModalInfo(keyWord)
-                    setOpenModal(!openModal)
-                    }}  />
-                </IconButton>
+                        </section>
+                        <section style={{marginLeft: "83%", marginTop: "-16%"}}>
+                        <IconButton>
+                            <OpenInNewIcon onClick={()=> {
+                            setModalInfo(keyWord)
+                            setOpenModal(!openModal)
+                            }}  />
+                        </IconButton>
+                        </section>
+                    </header>
+
+                <Avatar variant="rounded"
+                style={{marginLeft: "44%", 
+                marginTop: "-35px", 
+                color: "black",
+                transform: "scale(2.0)", 
+                
+                backgroundColor: classes[Math.floor(Math.random() * 5)]}}>{keyWord.firstname[0]}</Avatar>
+                <section style={{paddingTop: "25px"}}>
+                <Typography align="left" variant="h5" style={{marginTop: "10px", textAlign: "center"}} >{keyWord.firstname + " " + keyWord.lastname}</Typography>
+                <Typography align="left" variant="h6" style={{textAlign: "center"}}>{keyWord.department}</Typography>
+                <Typography align="left" variant="subtitle1" style={{textAlign: "center"}}>{keyWord.company}</Typography>
+                <Typography align="left" variant="subtitle2" style={{textAlign: "center"}}>{keyWord.jobtitle}</Typography>
+                </section>
+
             </Paper>
             </div>
                 )

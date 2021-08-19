@@ -132,8 +132,8 @@ exports.updateContactInfo = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     const userID = req.body.id;
-    const email = sanitize(req.body.email);
-    const password = sanitize(req.body.password)
+    const email = req.body.email;
+    const password = req.body.password
     const salt = await bcrypt.genSalt(10);
     const hashed_password = await bcrypt.hash(password, salt)
     try {

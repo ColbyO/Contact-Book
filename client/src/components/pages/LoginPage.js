@@ -27,15 +27,14 @@ function LoginPage({history}) {
         const config = {
             header: {
                 "Content-Type": "application/json"
-            }
+              }
         }
-
         try {
             const { data } = await axios.post("/api/auth/login", {email, password, config})
             localStorage.setItem("authToken", data.token)
             history.push("/")
         } catch (err) {
-            setError(error.response.data.error)
+            setError("Incorrect password.")
             setTimeout(()=>{
                 setError("")
             }, 5000)
@@ -44,12 +43,12 @@ function LoginPage({history}) {
     }
 
     return (
-      <div className="main-body">
-        <div className="w-100" style={{ maxWidth: "600px", marginLeft: "68.4%", marginTop: "0.3%" }}>
-        <Card style={{height: "934px", borderRadius: "15px", boxShadow: "0px 1px 100px 4px rgba(0,0,0,0.41)"}}>
+      <div>
+        <div className="w-100" style={{ maxWidth: "600px", marginLeft: "34.4%", marginTop: "10.3%" }}>
+        <Card style={{height: "534px", borderRadius: "15px", boxShadow: "0px 1px 100px 4px rgba(0,0,0,0.41)"}}>
         <Card.Body>
           <h2 className="text-center mb-4">Log In</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
+          {error && <Alert variant="danger" style={{position: "absolute", marginLeft: "33%"}}>{error}</Alert>}
             <Form style={{marginTop: "20%"}} onSubmit={loginHandler}>
             <section style={{marginLeft: "10%"}}>
             <FormControl style={{width: "90%"}}>
@@ -61,7 +60,7 @@ function LoginPage({history}) {
               <Input id="password" startAdornment={<InputAdornment position="start"><VpnKeyIcon /></InputAdornment>} type="password" required  onChange={(e)=> setPassword(e.target.value)}/>
             </FormControl>
             </section>
-            <section style={{marginTop: "50px"}}>
+            <section style={{marginTop: "161px"}}>
               <Button1 disabled={loading} className="w-100" type="submit"variant="contained" color="primary">
                 Log In
               </Button1>

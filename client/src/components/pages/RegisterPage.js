@@ -55,13 +55,13 @@ function RegisterPage({ history }) {
     }
 
     return (
-      <div className="main-body">
-        <div className="w-100" style={{ maxWidth: "600px", marginLeft: "0.3%", marginTop: "0.3%" }}>
-        <Card style={{height: "934px", boxShadow: "0px 1px 100px 4px rgba(0,0,0,0.41)"}}>
+      <div>
+        <div className="w-100" style={{ maxWidth: "600px", marginLeft: "34.4%", marginTop: "10.3%" }}>
+        <Card style={{height: "534px", boxShadow: "0px 1px 100px 4px rgba(0,0,0,0.41)", borderRadius: "15px"}}>
         <Card.Body>
           <h2 className="text-center mb-4">Sign Up</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={registerHandler}  style={{marginTop: "1%"}}>
+          <Form onSubmit={registerHandler}  style={{marginTop: "12%"}}>
             <section style={{marginLeft: "10%"}}>
             <FormControl style={{width: "90%"}}>
               <InputLabel htmlFor="username" >Username</InputLabel>
@@ -80,7 +80,7 @@ function RegisterPage({ history }) {
               <Input id="password-confirm" startAdornment={<InputAdornment position="start"><VpnKeyIcon /></InputAdornment>} type="password" required onChange={(e)=> setConfirmPassword(e.target.value)}/>
             </FormControl>
             </section>
-            <section style={{marginTop: "50px"}}>
+            <section style={{marginTop: "110px"}}>
               <Button1 disabled={loading} className="w-100" type="submit"variant="contained" color="primary">
                 Sign Up
               </Button1>
