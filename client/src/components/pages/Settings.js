@@ -1,7 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import { Container, Form, Button, Card, Alert } from "react-bootstrap"
-import { Link } from 'react-router-dom'
 import NavBar from '../page components/NavBar'
 
 function Settings() {
@@ -9,7 +8,7 @@ function Settings() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
-    const [loading, setLoading] = useState(false)
+    const [loading] = useState(false)
 
     const [error, setError] = useState("")
 

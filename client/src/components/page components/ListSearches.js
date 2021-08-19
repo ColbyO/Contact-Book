@@ -112,7 +112,7 @@ function ListSearches({searchTerm}) {
         if (selectionModel.length >= 2) {
             try {
                 for (let i = 0 ; i < selectionModel.length; i++) {
-                    let contacts = await axios({
+                    await axios({
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -134,7 +134,7 @@ function ListSearches({searchTerm}) {
         
         } else {
             try {
-                let contacts = await axios({
+                await axios({
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -158,6 +158,7 @@ function ListSearches({searchTerm}) {
         getContact()
     },[selectionModel])
 
+
     const columns = [
         {field: 'firstname', headerName: "First Name", width: 150, headerClassName: 'super-app-theme--header'},
         {field: 'lastname', headerName: "Last Name", width: 150},
@@ -171,7 +172,7 @@ function ListSearches({searchTerm}) {
 
     useEffect(()=>{
         setTableData(searchTerm)
-    })
+    }, [searchTerm])
 
     return (
         <Container>

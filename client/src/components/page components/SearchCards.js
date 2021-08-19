@@ -14,8 +14,8 @@ function SearchCards({searchTerm}) {
 
     const [tableData, setTableData] = useState([])
     const [modalInfo, setModalInfo] = useState([]);
-    const [selectModal, setselectModal] = useState([]);
-    const [selectionModel, setSelectionModel] = useState([])
+    const [setselectModal] = useState([]);
+    // const [selectionModel, setSelectionModel] = useState([])
     const [contact123, setContacts] = useState([])
     const [openModal, setOpenModal] = useState(false);
     const [edit, setEdit] = useState(false);

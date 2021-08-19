@@ -62,12 +62,12 @@ function InFolder() {
         getCurrentUser()
         getCurrentFolder()
         getFolderContents()
-    }, [])
+    })
 
 
     const deleteFolder = async () => {
         if (window.confirm("Are you sure you want to delete this contact?")) {
-            let deleteF = await axios({
+            await axios({
                 method:"DELETE",
                 headers: {
                     "Content-Type": "application/json",

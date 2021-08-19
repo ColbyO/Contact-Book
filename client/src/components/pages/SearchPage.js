@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Container, InputGroup, Dropdown, DropdownButton, FormControl as FormControlBoot } from 'react-bootstrap'
-import {Button, IconButton, Select, MenuItem, InputLabel} from '@material-ui/core'
+import {Button, IconButton } from '@material-ui/core'
 import ListSearches from '../page components/ListSearches'
 import NavBar from '../page components/NavBar'
 import { Button as ButtonBoot, Modal, Form } from "react-bootstrap";
@@ -16,7 +16,7 @@ function SearchPage({history}) {
     const [search, setSearch] = useState("")
     const [searchTerm, setSearchTerm] = useState()
     const [database, setDatabase] = useState("Database")
-    const [filterOpen, setFilterOpen] = useState(false)
+    // const [filterOpen, setFilterOpen] = useState(false)
     const [radio, setRadio] = useState('firstname');
     const [databaseColor, setDatabaseColor] = useState("outline-secondary")
     const [open, setOpen] = useState(false)
@@ -124,13 +124,13 @@ function SearchPage({history}) {
 
     }
 
-    function filterOpenFunc() {
-        if (filterOpen === true) {
-            setFilterOpen(false)
-        } else {
-            setFilterOpen(true)
-        }
-    }
+    // function filterOpenFunc() {
+    //     if (filterOpen === true) {
+    //         setFilterOpen(false)
+    //     } else {
+    //         setFilterOpen(true)
+    //     }
+    // }
 
     const handleChange = (event) => {
         setRadio(event.target.value);
@@ -150,9 +150,9 @@ function SearchPage({history}) {
         e.preventDefault()
       }
     
-      function handleChanges(e){
-          console.log(e.target.value)
-      }
+    //   function handleChanges(e){
+    //       console.log(e.target.value)
+    //   }
 
     return (
         <>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 import CloseIcon from '@material-ui/icons/Close';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import CardModal from './CardModal';
 import EditModal from './EditModal'
 
@@ -20,25 +20,25 @@ function SearchCards({searchTerm}) {
         setEdit(false)
     };
 
-    const getContactInfo = async () => {
-        let currentContact = await axios({
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`
-            },
-            url: "http://localhost:5000/api/private/get/contact",
-            data: {
-                id: modalInfo.id
-            }
-        })
-        // if (currentContact.data._id) {
-        //     setselectModal(searchTerm.data)
-        // } else {
-        //     setselectModal(searchTerm.data[0])
-        // }
+    // const getContactInfo = async () => {
+    //     let currentContact = await axios({
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             Authorization: `Bearer ${localStorage.getItem("authToken")}`
+    //         },
+    //         url: "http://localhost:5000/api/private/get/contact",
+    //         data: {
+    //             id: modalInfo.id
+    //         }
+    //     })
+    //     // if (currentContact.data._id) {
+    //     //     setselectModal(searchTerm.data)
+    //     // } else {
+    //     //     setselectModal(searchTerm.data[0])
+    //     // }
 
-    }
+    // }
 
     const deleteOneContact = async () => {
         let ID = selectModal._id
@@ -93,7 +93,7 @@ function SearchCards({searchTerm}) {
                             </IconButton>
                             </header>
                 <Avatar variant="rounded"
-                style={{marginLeft: "44%", marginTop: "-35px", color: "black", transform: "scale(2.0)",backgroundColor: classes[Math.floor(Math.random() * 5)], color: "black"}}>{searchTerm.firstname[0]}</Avatar>
+                style={{marginLeft: "44%", marginTop: "-35px", color: "black", transform: "scale(2.0)",backgroundColor: classes[Math.floor(Math.random() * 5)]}}>{searchTerm.firstname[0]}</Avatar>
                 <section style={{paddingTop: "25px"}}>
                 <Typography align="left" variant="h5" style={{marginTop: "10px", textAlign: "center"}}>{searchTerm.firstname + " " + searchTerm.lastname}</Typography>
                 <Typography align="left" variant="h6" style={{textAlign: "center"}}>{searchTerm.department}</Typography>

@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 import FolderIcon from '@material-ui/icons/Folder';
 
 function Folder({currentFolder}) {

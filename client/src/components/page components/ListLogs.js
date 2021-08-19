@@ -15,7 +15,7 @@ function ListLogs({Logs}) {
 
     useEffect(()=>{
         setLogData(Logs)
-    })
+    }, [Logs])
 
     return (
         <Container>
