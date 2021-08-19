@@ -133,7 +133,7 @@ export default function AddFolderButton({ currentContact, contacts }) {
       <Modal show={open} onHide={closeModal}>
           <Form onSubmit={handleSubmit} >
           <Modal.Body>
-            <FormControl>
+            <FormControl style={{marginLeft: "29%"}} >
               <InputLabel id="folder-select-label">Choose Folder</InputLabel>
               <Select onChange={handleChange} value={selectFolder} labelId="folder-select-label" style={{width: "200px"}}>
                     {

@@ -15,7 +15,6 @@ function SearchCards({searchTerm}) {
     const [tableData, setTableData] = useState([])
     const [modalInfo, setModalInfo] = useState([]);
     const [setselectModal] = useState([]);
-    // const [selectionModel, setSelectionModel] = useState([])
     const [contact123, setContacts] = useState([])
     const [openModal, setOpenModal] = useState(false);
     const [edit, setEdit] = useState(false);
@@ -51,30 +50,6 @@ function SearchCards({searchTerm}) {
 
     }
 
-    // const getContact = async () => {
-    //     try {
-    //         let contacts = await axios({
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 Authorization: `Bearer ${localStorage.getItem("authToken")}`
-    //             },
-    //             url: "http://localhost:5000/api/private/get/contactbyid",
-    //             data: {
-    //                 id: selectModal[0]
-    //             }
-    //         }).then(data => {
-    //             setContacts(data.data)
-    //         })
-    //     } catch (err) {
-    //         console.error(err)
-    //     }
-    //     }
-
-    //     useEffect(()=> {
-    //         getContact()
-    //     },[])
-
     const deleteOneContact = async () => {
         if (window.confirm("Are you sure you want to delete this contact?")) {
             let deleteContact = await axios({
@@ -104,7 +79,7 @@ function SearchCards({searchTerm}) {
 
     return (
         <div>
-        <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "25px"}}>
+        <div style={{display: "flex", flexWrap: "wrap", alignItems: "center", gap: "25px", marginLeft: "11%"}}>
         {
             currentPosts.map(keyWord => 
                 <div style={{height: "320px"}}>
