@@ -8,6 +8,7 @@ function Bookmarks() {
     const [user, setUser] = useState([])
     const [currentFolder, setCurrentFolder] = useState([])
 
+    // gets current logged in user and saves it in the state
     const getCurrentUser = async () => {
         let currentUser = await axios({
             method: "GET",
@@ -23,10 +24,12 @@ function Bookmarks() {
         setUser(currentUser.data)
     }
 
+    // run function on launch
     useEffect(() => {
         getCurrentUser()
     }, [])
 
+    // gets all folders with parentID of ROOT to display on the page.
     const getCurrentFolder = async () => {
             let getcurrentFolder = await axios({
                 method: "POST",
@@ -42,6 +45,7 @@ function Bookmarks() {
             setCurrentFolder(getcurrentFolder.data)
     }
 
+    // run function on launch
     useEffect(() => {
         getCurrentFolder()
     }, [])
@@ -50,9 +54,11 @@ function Bookmarks() {
     return (
         <div>
             <NavBar />
+            {/* Add Folder Button */}
             <section style={{marginLeft: "90%"}}>
             <AddFolder currentUser={user} />
             </section>
+            {/* Map through array to display all root folders */}
             <section style={{display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "10px"}} >
             {
                 currentFolder.map(keyWord=> <Folder currentFolder={keyWord} /> )
