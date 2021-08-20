@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const addToFolder = new mongoose.Schema({
-    contactID: {
+    contactID: { // id of contact
         type: String,
         required: true
     },
-    folderID: {
+    folderID: { // id of folder its in
         type: String,
         required: true
     },

@@ -17,11 +17,14 @@ const App = () => {
     <Router>
     <div className="App">
       <Switch>
+        {/******************* PRIVATE ROUTES *******************/}
         <PrivateRoute exact path="/" component={SearchPage} />
         <PrivateRoute exact path="/history" component={History} />
         <PrivateRoute exact path="/settings" component={Settings} />
         <PrivateRoute exact path="/bookmarks" component={Bookmarks} />
         <PrivateRoute path="/bookmarks/:folderid" component={InFolder} />
+        
+        {/******************* ROUTES *******************/}
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/register" component={RegisterPage} />
       </Switch>

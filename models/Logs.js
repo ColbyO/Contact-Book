@@ -1,23 +1,23 @@
 const mongoose = require('mongoose');
 
 const searchLogs = new mongoose.Schema({
-    username: {
+    username: { // username of user who searched
         type: String,
         required: true
     },
-    searchTerm: {
+    searchTerm: { // what the user searched
         type: String, 
         required: true
     },
-    searchQuery: {
+    searchQuery: { // what the user filtered by
         type: String,
         required: true
     },
-    database: {
+    database: { // what database the user searched
         type: String,
         required: true
     },
-    createdAt: {
+    createdAt: { // time that user searched
         type: Date,
         default: Date.now()
     }

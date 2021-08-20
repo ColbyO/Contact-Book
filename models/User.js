@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide a email"],
         unique: true,
-        match: [
+        match: [ // make sure its a valid email address
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'
         ]
     },
@@ -23,6 +23,7 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
+// hash the password
 UserSchema.pre("save", async function(next){
     if(!this.isModified("password")) {
         next();
@@ -31,11 +32,11 @@ UserSchema.pre("save", async function(next){
     this.password = await bcrypt.hash(this.password, salt)
     next();
 });
-
+// if user logs in compare passwords
 UserSchema.methods.matchPasswords = async function(password) {
     return await bcrypt.compare(password, this.password)
 }
-
+// create auth token
 UserSchema.methods.getSignedToken = function() {
     return jwt.sign({ id: this._id}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES})
 }
