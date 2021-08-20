@@ -6,6 +6,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Avatar from '@material-ui/core/Avatar';
 
+// styling for modal
 const useStyles = makeStyles((theme) => ({
     modal: {
       display: 'flex',
@@ -20,12 +21,16 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+// view = open modal | info = contact info | close = close modal
 function CardModal({view, info, close}) {
+    // import styling
     const classes = useStyles();
+    // use state for opening modal
     const [open] = useState(view);
   
     return (
         <div>
+          {/* MODAL */}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -38,11 +43,15 @@ function CardModal({view, info, close}) {
             timeout: 500,
           }}
         >
+          {/* Modal fade-in */}
           <Fade in={open}>
           <Card style={{width: "35%"}}>
           <Card.Body>
+            {/* Full name of contact at the top of the modal */}
             <h2 className="text-center mb-4">{info.firstname + " " + info.lastname}</h2>
+            {/* Avatar with initial of first name */}
             <Avatar style={{marginLeft: "46%"}}>{info.firstname[0]}</Avatar>
+            {/* All info of contact */}
               <section style={{textAlign: "center", paddingTop: "25px"}}>
                 <h6>Email</h6>
                 <p>info.email</p>
@@ -55,6 +64,7 @@ function CardModal({view, info, close}) {
                 <h6>Job Title</h6>
                 <p>{info.jobtitle}</p>
                 </section>
+                {/* Button to close modal */}
               <Button className="w-100 mt-3" onClick={close}>
                 Close
               </Button>

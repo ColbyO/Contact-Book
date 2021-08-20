@@ -3,13 +3,14 @@ import { Navbar, Container, NavDropdown, Nav } from 'react-bootstrap'
 import axios from 'axios'
 
 function NavBar() {
+    // username use state
     const [username, setUsername] = useState("")
-
+    // logout function remove the token and redirect to login page
     const logoutHandler = () => {
         localStorage.removeItem("authToken")
         window.location = "/login"
     }
-
+    // gets the current users username and sets the username state
     const getCurrentUser = async () => {
         let currentUser = await axios({
             method: "GET",
@@ -24,7 +25,7 @@ function NavBar() {
         })
         setUsername(currentUser.data.username)
     }
-
+    // run function on run.
     useEffect(() => {
         getCurrentUser()
     }, [])
@@ -32,13 +33,16 @@ function NavBar() {
     return (
         <Navbar variant="dark" bg="primary">
             <Container>
+                {/* Contact Book text at top */}
                 <Navbar.Brand href="/">Contact Book</Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
+                    {/* Text before username dropdown */}
                 <Navbar.Text>
                     Signed in as:
                 </Navbar.Text>
                 <Nav>
+                    {/* Dropdown menu for settings, bookmarks, history and logout */}
                     <NavDropdown
                     id="nav-dropdown"
                     title={username}

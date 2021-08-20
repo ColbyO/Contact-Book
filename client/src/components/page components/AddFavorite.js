@@ -6,11 +6,15 @@ import StarIcon from '@material-ui/icons/Star';
 
 
 export default function AddFolderButton({ currentContact, contacts }) {
+    // use state for all folder data 
     const [allFolders, setAllFolders] = useState([])
+    // use state for selecting folder to add contact to in modal
     const [selectFolder, setSelectFolder] = useState('')
+    // open close usestate to handle modal
     const [open, setOpen] = useState(false)
 
   const getAllFolders = async () => {
+    // gets all of the folders currently made and saves them to usestate
       let Folders = await axios({
           method: "GET",
           headers: {
@@ -24,11 +28,12 @@ export default function AddFolderButton({ currentContact, contacts }) {
   }
 
   const addToFolder = async () => {
-    // console.log(contacts) // all info (eg. firstname, lastname, etc)
-    // console.log(currentContact) // id (eg. 1078)
+    // KEY
+    // contacts = all info (eg. firstname, lastname, etc)
+    // currentContact = id (eg. 1078)
+
+    // if contacts wanted to add is over 1, data would need slight changes.
     if (contacts.length > 1) {
-      console.log(currentContact)
-      console.log(contacts)
       for(let i = 0; i < contacts.length; i++) {
         let toFolder = await axios({
           method: "POST",
@@ -54,6 +59,7 @@ export default function AddFolderButton({ currentContact, contacts }) {
 
       
     } else {
+      // if the contact was selected from mongodb
       if (contacts.firstname !== undefined) {
         let toFolder = await axios({
           method: "POST",
@@ -74,9 +80,11 @@ export default function AddFolderButton({ currentContact, contacts }) {
             jobtitle: contacts.jobtitle
         }
       })
+    // if post request was successful, alert user
     if (toFolder.status === 200) {
         alert("Successfully added to Folder")
     }     
+    // if the contact was selected from postgresql
       } else {
         let toFolder = await axios({
           method: "POST",
@@ -97,6 +105,7 @@ export default function AddFolderButton({ currentContact, contacts }) {
             jobtitle: contacts[0].jobtitle || contacts.jobtitle
         }
       })
+      // if post request was successful, alert user
     if (toFolder.status === 200) {
         alert("Successfully added to Folder")
     }
@@ -106,20 +115,20 @@ export default function AddFolderButton({ currentContact, contacts }) {
 
 }
 
-
+  // function for opening modal
   function openModal() {
     setOpen(true)
     getAllFolders()
   }
-
+  // function for closing modal
   function closeModal() {
     setOpen(false)
   }
-
+  // function stopping early submit
   function handleSubmit(e) {
     e.preventDefault()
   }
-
+  // sets the folder the user picked to send contact to 
   function handleChange(e){
       setSelectFolder(e.target.value)
       console.log(e.target.value)
@@ -127,12 +136,14 @@ export default function AddFolderButton({ currentContact, contacts }) {
 
   return (
     <>
+    {/* when user clicks the star icon, modal will open */}
       <IconButton onClick={openModal} variant="outline-success" size="sm">
         <StarIcon />
       </IconButton>
       <Modal show={open} onHide={closeModal}>
           <Form onSubmit={handleSubmit} >
           <Modal.Body>
+            {/* Input that shows user all folders and then sets the users selected folder for post request */}
             <FormControl style={{marginLeft: "29%"}} >
               <InputLabel id="folder-select-label">Choose Folder</InputLabel>
               <Select onChange={handleChange} value={selectFolder} labelId="folder-select-label" style={{width: "200px"}}>
@@ -143,6 +154,7 @@ export default function AddFolderButton({ currentContact, contacts }) {
             </FormControl>
           </Modal.Body>
           <Modal.Footer>
+            {/* Buttons at the bottom of the modal */}
             <Button variant="secondary" onClick={closeModal}>
               Close
             </Button>

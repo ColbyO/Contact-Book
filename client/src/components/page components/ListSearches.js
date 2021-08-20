@@ -1,16 +1,21 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
+// BOOTSTRAP 
+import {Container} from 'react-bootstrap';
+// MATERIAL UI CORE
 import {IconButton} from '@material-ui/core';
 import {DataGrid} from '@material-ui/data-grid';
-import {Container} from 'react-bootstrap';
-import ViewListIcon from '@material-ui/icons/ViewList';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+// MATERIAL UI ICONS
+import ViewListIcon from '@material-ui/icons/ViewList';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
+// MATERIAL UI LAB
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+// COMPONENTS
 import EditModal from './EditModal'
 import SearchCards from './SearchCards';
 import AddContact from './AddContact';
@@ -18,15 +23,18 @@ import AddFavorite from './AddFavorite'
 
 
 function ListSearches({searchTerm}) {
+    // Modal Info
     const [tableData, setTableData] = useState([])
     const [selectionModel, setSelectionModel] = useState([])
     const [editInfo, setEditInfo] = useState([])
-    // const [allFolders, setAllFolders] = useState([])
     const [contact123, setContacts] = useState([])
-    const [viewAddModal, setViewAddModal] = useState(false)
+    // View buttons to switch from cards to datagrid
     const [view, setView] = useState('module');
+    // Modal States
     const [edit, setEdit] = useState(false);
+    const [viewAddModal, setViewAddModal] = useState(false)
 
+    // get current contact info and save to state for edit modal
     const getContactInfo = async () => {
         let id = selectionModel[0]
         let currentContact = await axios({
@@ -47,7 +55,7 @@ function ListSearches({searchTerm}) {
         }
 
     }
-
+    // change from cards to data grid
     const handleViewChange = (event, nextView) => {
         if(view === "module"){
             setView("list")
@@ -55,12 +63,12 @@ function ListSearches({searchTerm}) {
             setView("module")
         }
     };
-
+    // close modal handler
     const closeModalHandler = () => {
         setEdit(false)
         setViewAddModal(false)
     };
-
+    // delete contact function for on select
     const deleteOneContact = async () => {
         if (window.confirm("Are you sure you want to delete this contact?")) {
             let deleteContact = await axios({
@@ -83,7 +91,7 @@ function ListSearches({searchTerm}) {
             console.log("DIDNT DELETE")
         }
     } 
-
+    // delete multiple contacts function for on select DATAGRID ONLY
     const deleteManyContacts = async () => {
         if (window.confirm("Are you sure you want to delete this contact?")) {
             let deleteContact = await axios({
@@ -106,9 +114,10 @@ function ListSearches({searchTerm}) {
             console.log("DIDNT DELETE")
         }        
     }
-
+    // set contact info for modals
     const getContact = async () => {
         let contactsArray = []
+        // if the selected grids are more than one must for loop the selected ids
         if (selectionModel.length >= 2) {
             try {
                 for (let i = 0 ; i < selectionModel.length; i++) {
@@ -131,7 +140,7 @@ function ListSearches({searchTerm}) {
             } catch (err) {
                 console.error(err)
             }
-        
+        // if only one select no need for for loop.
         } else {
             try {
                 await axios({
@@ -153,12 +162,12 @@ function ListSearches({searchTerm}) {
         }
 
     }
-    
+    // every time a new select occurs run the getContact function.
     useEffect(()=> {
         getContact()
     },[selectionModel])
 
-
+    // Datagrid columns
     const columns = [
         {field: 'firstname', headerName: "First Name", width: 150, headerClassName: 'super-app-theme--header'},
         {field: 'lastname', headerName: "Last Name", width: 150},
@@ -169,17 +178,18 @@ function ListSearches({searchTerm}) {
         {field: 'phone', headerName: "Phone", width: 150},
 
     ]
-
+    // update table data everytime user searches 
     useEffect(()=>{
         setTableData(searchTerm)
     }, [searchTerm])
 
     return (
         <Container>
-
+            {/* every new search term show contacts */}
             {searchTerm ? 
             <div>
                 <div style={{display: "flex"}}>
+                    {/* Buttons to toggle from cards to data grid */}
                     <ToggleButtonGroup orientation="horizontal" value={view} exclusive onChange={handleViewChange}>
                     <ToggleButton value="module" aria-label="module">
                             <ViewModuleIcon />
@@ -196,7 +206,7 @@ function ListSearches({searchTerm}) {
                             <AddIcon />
                         </IconButton>
                         </ButtonGroup>
-                    
+                    {/* If one grid is selected render edit and delete button with correct functions (DATA GRID ONLY) */}
                     {
                         selectionModel.length === 1 && view === "list" ? 
                         <ButtonGroup style={{marginLeft: "-17%"}}>
@@ -216,6 +226,7 @@ function ListSearches({searchTerm}) {
                        
                         : <></>
                     }
+                    {/* If more than one grid is selected render delete button with correct functions (DATA GRID ONLY) */}
                     {
                         selectionModel.length > 1 && view === "list" ? 
                         <ButtonGroup style={{marginLeft: "-12.7%"}}>
@@ -228,13 +239,16 @@ function ListSearches({searchTerm}) {
                         </ButtonGroup>                           
                         : <></>
                     }
+                    {/* Edit Modal */}
                     {
                         edit ? <EditModal view={edit} profile={editInfo} close={closeModalHandler} /> : <></>
                     }
+                    {/* Add New Contact Modal */}
                     {
                         viewAddModal ? <AddContact open={viewAddModal} close={closeModalHandler} /> : <p></p>
                     }
                 </div>
+                {/* If list button is clicked, render datagrid */}
                 {
                     view === "list" ? 
                     <div style={{height: 650, width: '100%', marginTop: "15px"}} >
@@ -252,6 +266,7 @@ function ListSearches({searchTerm}) {
                     /> </div>
                     : <p></p>
                 }
+                {/* If card button is clicked, render cards. */}
                 {
                     view === "module" ? <SearchCards searchTerm={searchTerm} /> : <p></p>
                 }
