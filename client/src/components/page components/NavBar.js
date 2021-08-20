@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import { Navbar, Container, NavDropdown, Nav } from 'react-bootstrap'
 import axios from 'axios'
 
+import logo from "../img/logo2.png"
+
 function NavBar() {
     // username use state
     const [username, setUsername] = useState("")
@@ -34,7 +36,17 @@ function NavBar() {
         <Navbar variant="dark" bg="primary">
             <Container>
                 {/* Contact Book text at top */}
-                <Navbar.Brand href="/">Contact Book</Navbar.Brand>
+                <Navbar.Brand href="/">
+                <img
+                    alt=""
+                    src={logo}
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                    style={{marginRight: "7px"}}
+                    />{' '}
+                    The Important Book
+                </Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
                     {/* Text before username dropdown */}

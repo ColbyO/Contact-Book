@@ -68,10 +68,10 @@ export default function AddFolderButton({ currentUser, folderid }) {
           </Modal.Body>
           <Modal.Footer>
             {/* Buttons at bottom of modal */}
-            <Button variant="secondary" onClick={closeModal}>
+            <Button variant="danger" onClick={closeModal}>
               Close
             </Button>
-            <Button variant="success" type="submit" onClick={createNewFolder}>
+            <Button variant="primary" type="submit" onClick={createNewFolder}>
               Add Folder
             </Button>
           </Modal.Footer>

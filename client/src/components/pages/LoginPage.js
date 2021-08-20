@@ -2,7 +2,9 @@ import React, {useState, useEffect} from 'react'
 import './css/main.css'
 import axios from 'axios'
 
+// COMPONENTS
 import { Link } from 'react-router-dom'
+import logo from "../img/logo.png"
 // BOOTSTRAP
 import { Form, Card, Alert } from "react-bootstrap"
 // MATERIAL UI
@@ -55,11 +57,16 @@ function LoginPage({history}) {
         <Card style={{height: "534px", borderRadius: "15px", boxShadow: "0px 1px 100px 4px rgba(0,0,0,0.41)"}}>
         <Card.Body>
           {/*************************** TITLE ***************************/}
-          <h2 className="text-center mb-4">Log In</h2>
+          <header style={{display: "flex", flexWrap: "wrap", alignItems: "center", gap: "25px", marginLeft: "12%"}}>
+          <h1>The Important Book</h1> 
+          <img src={logo} alt="" width="50" height="50" />
+          </header>
+          <p style={{marginLeft: "30%"}}>Search for the right person.</p>
+          <h2 className="text-center mt-5" style={{marginLeft: "-3%", textDecoration: "underline"}}>Log In</h2>
           {/*************************** IF ERROR  ***************************/}
           {error && <Alert variant="danger" style={{position: "absolute", marginLeft: "33%"}}>{error}</Alert>}
           {/*************************** FORM ***************************/}
-            <Form style={{marginTop: "20%"}} onSubmit={loginHandler}>
+            <Form style={{marginTop: "10%"}} onSubmit={loginHandler}>
               {/*************************** INPUT ***************************/}
             <section style={{marginLeft: "10%"}}>
               {/*************************** EMAIL INPUT ***************************/}
@@ -74,7 +81,7 @@ function LoginPage({history}) {
             </FormControl>
             </section>
             {/*************************** LOG IN BUTTON ***************************/}
-            <section style={{marginTop: "161px"}}>
+            <section style={{marginTop: "71px"}}>
               <Button1 disabled={loading} className="w-100" type="submit"variant="contained" color="primary">
                 Log In
               </Button1>

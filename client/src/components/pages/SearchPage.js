@@ -220,7 +220,7 @@ function SearchPage({history}) {
                 </Modal.Body>
                 <Modal.Footer>
                 {/**************************** APPLY FILTER  ****************************/}
-                  <ButtonBoot variant="success" type="submit" onClick={closeModal}>
+                  <ButtonBoot variant="primary" type="submit" onClick={closeModal}>
                     Apply
                   </ButtonBoot>
                 </Modal.Footer>
