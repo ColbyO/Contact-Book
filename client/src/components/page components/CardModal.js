@@ -50,9 +50,9 @@ function CardModal({view, info, close}) {
             {/* Full name of contact at the top of the modal */}
             <h2 className="text-center mb-4">{info.firstname + " " + info.lastname}</h2>
             {/* Avatar with initial of first name */}
-            <Avatar style={{marginLeft: "46%"}}>{info.firstname[0]}</Avatar>
+            <Avatar style={{marginLeft: "46%"}} variant="rounded">{info.firstname[0]}</Avatar>
             {/* All info of contact */}
-              <section style={{textAlign: "center", paddingTop: "25px"}}>
+              <section style={{textAlign: "center", paddingTop: "25px", marginLeft: "-15px"}}>
                 <h6>Email</h6>
                 <p>info.email</p>
                 <h6>Phone</h6>

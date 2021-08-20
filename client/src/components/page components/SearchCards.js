@@ -19,7 +19,7 @@ function SearchCards({searchTerm}) {
     // Set Contact array for modals & functions
     const [tableData, setTableData] = useState([])
     const [modalInfo, setModalInfo] = useState([]);
-    const [setselectModal] = useState([]);
+    const [selectModal, setselectModal] = useState([]);
     const [contact123, setContacts] = useState([])
     // Modals
     const [openModal, setOpenModal] = useState(false);
@@ -73,7 +73,7 @@ function SearchCards({searchTerm}) {
                     id: contact123.id
                 }
             })
-            console.log(deleteContact)
+            window.location="/"
         } else {
             console.log("DIDNT DELETE")
         }
